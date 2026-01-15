@@ -10,7 +10,7 @@ class HomeData {
   List<Setting>? settings;
   List<Tasbih>? tasbihs;
   List<Categories>? categories;
-  PrayerData? prayerTime;
+  PrayerTime? prayerTime;
   List<Slider>? sliders;
 
   HomeData(
@@ -44,7 +44,7 @@ class HomeData {
       });
     }
     prayerTime = json['prayer_time'] != null
-        ? new PrayerData.fromJson(json['prayer_time'])
+        ? new PrayerTime.fromJson(json['prayer_time'])
         : null;
     if (json['sliders'] != null) {
       sliders = <Slider>[];

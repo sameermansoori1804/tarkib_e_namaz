@@ -6,9 +6,11 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-sdk tools:overrideLibrary="io.flutter.plugins.googlemobileads"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
 
     <application
-        android:label="flutter_template"
+        android:label="Tarkib-e-Namaz"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -42,6 +44,13 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3940256099942544~3347511713"/> <!-- Test ID -->
+
+        <meta-data
+            android:name="onesignal_app_id"
+            android:value="54877126-383f-4b3f-b475-fb91d6c4556a"/>
+        <meta-data
+            android:name="onesignal_google_project_number"
+            android:value="REMOTE"/>
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../api/api_client.dart';
 import '../../../../utils/AppConstants.dart';
 import '../../../home/domain/models/home_data.dart';
+import '../../../home/domain/models/prayer_data.dart';
 
 class SplashRepository implements SplashRepositoryInterface {
   final ApiClient apiClient;
@@ -18,11 +19,11 @@ class SplashRepository implements SplashRepositoryInterface {
   }
 
   @override
-  Future<HomeData?> getHomeData() async {
+  Future<HomeData?> getHomeData(Map<String, dynamic> body) async {
 
     HomeData? homeData;
 
-    Response response = await apiClient.postData(AppConstants.homeData,{});
+    Response response = await apiClient.postData(AppConstants.homeData,body);
     print(response.body);
 
     if(response.statusCode == 200) {
@@ -30,6 +31,19 @@ class SplashRepository implements SplashRepositoryInterface {
 
     }
     return homeData;
+  }
+  @override
+  Future<List<Data>?> getLoadMorePrayer(Map<String, dynamic> body) async {
+
+    List<Data>? prayerData;
+    Response response = await apiClient.postData(AppConstants.loadMorePrayer,body);
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      prayerData = [];
+      response.body.forEach((category) => prayerData!.add(Data.fromJson(category)));
+    }
+    return prayerData;
   }
 
   @override

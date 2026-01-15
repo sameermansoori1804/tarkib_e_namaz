@@ -7,14 +7,16 @@ import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'features/language/controller/language_controller.dart';
+import 'features/notification/domain/services/one_signal_service.dart';
 import 'helpers/get_di.dart' as di;
 import 'locality/languages.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  print("farukh-----");
 
   Map<String, Map<String, String>> languages = await di.init();
-  await MobileAds.instance.initialize();
+  // await MobileAds.instance.initialize();
 
   handleError();
   runApp(MyApp(languages: languages));
@@ -29,6 +31,14 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
+
+  @override
+  void initState() {
+    super.initState();
+    OneSignalService.initOneSignal(context);
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -37,6 +47,7 @@ class _MyAppState extends State<MyApp> {
       return GetMaterialApp(
         title: 'Flutter Demo',
         translations: Messages(languages: widget.languages),
+        debugShowCheckedModeBanner: false,
         locale: localizeController.locale,
         fallbackLocale: Locale(
             AppConstants.languages[0].languageCode!,

@@ -16,7 +16,7 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
     super.initState();
     _bannerAd = BannerAd(
       size: AdSize.banner,
-      adUnitId: 'ca-app-pub-3940256099942544/9214589741', // test banner
+      adUnitId: 'ca-app-pub-4830223047407077/4534700472', // test banner
       listener: BannerAdListener(
         onAdLoaded: (_) {
           setState(() => _isLoaded = true);

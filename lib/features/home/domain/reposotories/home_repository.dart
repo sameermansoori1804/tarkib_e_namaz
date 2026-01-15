@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_template/features/splash/domain/reposotories/splash_repository_interface.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,7 +25,8 @@ class HomeRepository implements HomeRepositoryInterface {
     Response response = await apiClient.getData(AppConstants.homeData);
     if(response.statusCode == 200) {
       homeData = HomeData.fromJson(response.body);
-
+      print("farukh-----1");
+      print(homeData.prayerTime!.code);
     }
     return homeData;
   }

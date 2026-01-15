@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_template/features/home/screens/home_screens.dart';
+import 'package:flutter_template/features/prayer_time/screens/prayer_time.dart';
 
 import '../../../utils/app_color.dart';
+import '../../common/screens/commig_soon.dart';
 import '../../common/screens/custome_app_bar.dart';
 import '../../common/screens/home_category_view.dart';
 import '../../common/screens/home_image_slider.dart';
@@ -27,11 +29,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
+
+    // initialize PageController with the starting page
+    _pageController = PageController(initialPage: widget.pageIndex);
+
+    _pageIndex = widget.pageIndex;
+
     _screens = [
       HomeScreens(),
-      SizedBox(),
-      SizedBox(),
-      SizedBox()
+      PrayerTime(),
+      ComingSoonScreen(),
+      ComingSoonScreen()
     ];
   }
   @override
@@ -67,8 +76,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.category),
-            label: 'Categories',
+            icon: Icon(Icons.access_time_filled),
+            label: 'Prayer time',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
@@ -85,6 +94,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
 
   void _setPage(int pageIndex) {
+    print(pageIndex);
+    print("farukh------");
     setState(() {
       _pageController!.jumpToPage(pageIndex);
       _pageIndex = pageIndex;

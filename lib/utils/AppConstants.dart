@@ -21,6 +21,7 @@ class AppConstants {
 
 
   static const String homeData = '/getsettings';
+  static const String loadMorePrayer = '/prayer-date';
 
 
 

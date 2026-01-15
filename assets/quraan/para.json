@@ -1,0 +1,242 @@
+[
+  {
+    "id": 1,
+    "name": "الٓمّٓ",
+    "pageStart": "000",
+    "pageEnd": "018",
+    "ruku": 17,
+    "ayat": 148
+  },
+  {
+    "id": 2,
+    "name": "سَیَقُوْلُ",
+    "pageStart": "019",
+    "pageEnd": "036",
+    "ruku": 16,
+    "ayat": 111
+  },
+  {
+    "id": 3,
+    "name": "تِلْكَ الرُّسُلُ",
+    "pageStart": "037",
+    "pageEnd": "054",
+    "ruku": 17,
+    "ayat": 125
+  },
+  {
+    "id": 4,
+    "name": "لَنْ  تَنَالُو",
+    "pageStart": "055",
+    "pageEnd": "072",
+    "ruku": 14,
+    "ayat": 132
+  },
+  {
+    "id": 5,
+    "name": "وَٱلْمُحْصَنَاتُ",
+    "pageStart": "073",
+    "pageEnd": "090",
+    "ruku": 17,
+    "ayat": 124
+  },
+  {
+    "id": 6,
+    "name": "لَا يُحِبُّ ٱللهُ",
+    "pageStart": "091",
+    "pageEnd": "108",
+    "ruku": 14,
+    "ayat": 111
+  },
+  {
+    "id": 7,
+    "name": "وَإِذَا سَمِعُوا",
+    "pageStart": "109",
+    "pageEnd": "126",
+    "ruku": 19,
+    "ayat": 148
+  },
+  {
+    "id": 8,
+    "name": "وَلَوْ أَنَّنَا",
+    "pageStart": "127",
+    "pageEnd": "144",
+    "ruku": 17,
+    "ayat": 142
+  },
+  {
+    "id": 9,
+    "name": "قَالَ ٱلْمَلَأُ",
+    "pageStart": "145",
+    "pageEnd": "162",
+    "ruku": 18,
+    "ayat": 159
+  },
+  {
+    "id": 10,
+    "name": "وَٱعْلَمُواْ",
+    "pageStart": "163",
+    "pageEnd": "180",
+    "ruku": 17,
+    "ayat": 128
+  },
+  {
+    "id": 11,
+    "name": "يَعْتَذِرُونَ",
+    "pageStart": "181",
+    "pageEnd": "198",
+    "ruku": 16,
+    "ayat": 150
+  },
+  {
+    "id": 12,
+    "name": "وَمَا مِنْ دَآبَّةٍ",
+    "pageStart": "199",
+    "pageEnd": "216",
+    "ruku": 16,
+    "ayat": 170
+  },
+  {
+    "id": 13,
+    "name": "وَمَا أُبَرِّئُ",
+    "pageStart": "217",
+    "pageEnd": "234",
+    "ruku": 19,
+    "ayat": 155
+  },
+  {
+    "id": 14,
+    "name": "رُبَمَا",
+    "pageStart": "235",
+    "pageEnd": "252",
+    "ruku": 22,
+    "ayat": 226
+  },
+  {
+    "id": 15,
+    "name": "سُبْحَانَ ٱلَّذِى",
+    "pageStart": "253",
+    "pageEnd": "270",
+    "ruku": 21,
+    "ayat": 185
+  },
+  {
+    "id": 16,
+    "name": "قَالَ أَلَمْ",
+    "pageStart": "271",
+    "pageEnd": "288",
+    "ruku": 17,
+    "ayat": 269
+  },
+  {
+    "id": 17,
+    "name": "ٱقْتَرَبَ لِلْنَّاسِ",
+    "pageStart": "289",
+    "pageEnd": "306",
+    "ruku": 17,
+    "ayat": 190
+  },
+  {
+    "id": 18,
+    "name": "قَدْ أَفْلَحَ",
+    "pageStart": "307",
+    "pageEnd": "324",
+    "ruku": 17,
+    "ayat": 204
+  },
+  {
+    "id": 19,
+    "name": "وَقَالَ ٱلَّذِينَ",
+    "pageStart": "325",
+    "pageEnd": "342",
+    "ruku": 19,
+    "ayat": 343
+  },
+  {
+    "id": 20,
+    "name": "أَمَّنْ خَلَقَ",
+    "pageStart": "343",
+    "pageEnd": "360",
+    "ruku": 16,
+    "ayat": 166
+  },
+  {
+    "id": 21,
+    "name": "أُتْلُ مَاأُوْحِیَ",
+    "pageStart": "361",
+    "pageEnd": "378",
+    "ruku": 19,
+    "ayat": 179
+  },
+  {
+    "id": 22,
+    "name": "وَمَنْ يَّقْنُتْ",
+    "pageStart": "379",
+    "pageEnd": "396",
+    "ruku": 18,
+    "ayat": 163
+  },
+  {
+    "id": 23,
+    "name": "وَمَآ لي",
+    "pageStart": "397",
+    "pageEnd": "414",
+    "ruku": 17,
+    "ayat": 363
+  },
+  {
+    "id": 24,
+    "name": "فَمَنْ أَظْلَمُ",
+    "pageStart": "415",
+    "pageEnd": "432",
+    "ruku": 19,
+    "ayat": 175
+  },
+  {
+    "id": 25,
+    "name": "إِلَيْهِ يُرَدُّ",
+    "pageStart": "433",
+    "pageEnd": "450",
+    "ruku": 20,
+    "ayat": 246
+  },
+  {
+    "id": 26,
+    "name": "حم",
+    "pageStart": "451",
+    "pageEnd": "468",
+    "ruku": 18,
+    "ayat": 195
+  },
+  {
+    "id": 27,
+    "name": "قَالَ فَمَا خَطْبُكُم",
+    "pageStart": "469",
+    "pageEnd": "486",
+    "ruku": 20,
+    "ayat": 399
+  },
+  {
+    "id": 28,
+    "name": "قَدْ سَمِعَ ٱللهُ",
+    "pageStart": "487",
+    "pageEnd": "506",
+    "ruku": 20,
+    "ayat": 1137
+  },
+  {
+    "id": 29,
+    "name": "تَبَارَكَ ٱلَّذِى",
+    "pageStart": "507",
+    "pageEnd": "526",
+    "ruku": 22,
+    "ayat": 431
+  },
+  {
+    "id": 30,
+    "name": "عَمَّ",
+    "pageStart": "527",
+    "pageEnd": "540",
+    "ruku": 39,
+    "ayat": 594
+  }
+]

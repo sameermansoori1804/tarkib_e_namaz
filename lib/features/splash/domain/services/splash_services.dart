@@ -7,6 +7,7 @@ import 'package:flutter_template/features/splash/domain/services/splash_services
 import 'package:get/get.dart';
 
 import '../../../home/domain/models/home_data.dart';
+import '../../../home/domain/models/prayer_data.dart';
 
 
 class SplashService implements SplashServiceInterface{
@@ -23,8 +24,12 @@ class SplashService implements SplashServiceInterface{
 
 
   @override
-  Future<HomeData?> getHomeData() async {
-    return await splashRepositoryInterface.getHomeData();
+  Future<HomeData?> getHomeData(Map<String, dynamic> body) async {
+    return await splashRepositoryInterface.getHomeData(body);
+  }
+  @override
+  Future<List<Data>?> getLoadMorePrayer(Map<String, dynamic> body) async {
+    return await splashRepositoryInterface.getLoadMorePrayer(body);
   }
 
 }

@@ -85,9 +85,7 @@ class ApiClient extends GetxService {
       bool handleError = true}) async {
     try {
       if (kDebugMode) {
-        print('====> API Call: $uri');
-        print('====> Header: ${headers ?? _mainHeaders}');
-        print('====> API Body: $body');
+
       }
       http.Response response = await http
           .post(
@@ -107,8 +105,7 @@ class ApiClient extends GetxService {
       {Map<String, String>? headers, bool handleError = true}) async {
     try {
       if (kDebugMode) {
-        print('====> API Call: $uri\nHeader: ${headers ?? _mainHeaders}');
-        print('====> API Body: $body with ${multipartBody.length} picture');
+
       }
       http.MultipartRequest request =
           http.MultipartRequest('POST', Uri.parse(appBaseUrl + uri));
@@ -137,8 +134,7 @@ class ApiClient extends GetxService {
       {Map<String, String>? headers, bool handleError = true}) async {
     try {
       if (kDebugMode) {
-        print('====> API Call: $uri\nHeader: ${headers ?? _mainHeaders}');
-        print('====> API Body: $body');
+
       }
       http.Response response = await http
           .put(
@@ -157,7 +153,6 @@ class ApiClient extends GetxService {
       {Map<String, String>? headers, bool handleError = true}) async {
     try {
       if (kDebugMode) {
-        print('====> API Call: $uri\nHeader: ${headers ?? _mainHeaders}');
       }
       http.Response response = await http
           .delete(

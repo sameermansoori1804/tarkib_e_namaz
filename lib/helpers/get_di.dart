@@ -5,6 +5,8 @@ import 'package:flutter_template/features/ads/controller/ads_controller.dart';
 import 'package:flutter_template/features/common/controller/location_controller.dart';
 import 'package:flutter_template/features/language/domain/reposotories/language_repository.dart';
 import 'package:flutter_template/features/language/domain/reposotories/language_repository_interface.dart';
+import 'package:flutter_template/features/prayer_time/controller/prayer_time_controller.dart';
+import 'package:flutter_template/features/qaza_namaz/controller/qaza_controller.dart';
 import 'package:flutter_template/features/splash/domain/services/splash_services.dart';
 import 'package:flutter_template/features/splash/domain/services/splash_services_interface.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,6 +20,7 @@ import '../features/language/domain/services/language_service_interface.dart';
 import '../features/splash/controller/splash_controller.dart';
 import '../features/splash/domain/reposotories/splash_repository.dart';
 import '../features/splash/domain/reposotories/splash_repository_interface.dart';
+import '../features/tasbih/controller/tasbih_controller.dart';
 import '../utils/AppConstants.dart';
 
 
@@ -47,6 +50,9 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => SplashController(splashServiceInterface: Get.find()));
   Get.lazyPut(() => LocationController());
   Get.lazyPut(() => AdsController());
+  Get.lazyPut(() => TasbihController());
+  Get.lazyPut(() => QazaController());
+  Get.lazyPut(() => PrayerTimeController());
   Get.lazyPut(() => LocalizationController(languageServiceInterface: Get.find()));
 
 
