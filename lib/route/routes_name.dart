@@ -2,7 +2,6 @@ class RouteName {
 
   static const String splashScreen = '/' ;
 
-  static const String loginView = '/login_view' ;
   static const String homeView = '/home_view' ;
   static const String pdfView = '/pdf_view' ;
   static const String tasbih = '/tasbih_screen' ;
@@ -14,6 +13,8 @@ class RouteName {
   static const String cooming_soon = '/cooming_soon' ;
   static const String quraanScreen = '/quraan-screen' ;
   static const String quraanPageScreen = '/quraan-page-screen' ;
+  static const String sawalJawab = '/sawal-jawab' ;
+  static const String login = '/login' ;
 
 
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_template/features/common/screens/home_option_menu.dart';
+import 'package:flutter_template/route/routes_name.dart';
 
 import '../../../route/routes.dart';
 import '../../../utils/images.dart';
@@ -50,12 +51,12 @@ class Menucard extends StatelessWidget {
             ),
             HomeOptionMenu(
               icon: Images.qa,
-              route: AppRoutes.getComingSoonScreen(),
+              route: RouteName.sawalJawab,
               title: "Sawal-Jawab",
             ),
             HomeOptionMenu(
               icon: Images.trophy,
-              route: AppRoutes.getComingSoonScreen(),
+              route: RouteName.login,
               title: "Compitition",
             ),
             HomeOptionMenu(

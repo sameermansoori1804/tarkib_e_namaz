@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+import '../controller/AdHelper.dart';
+
 class BannerAdWidget extends StatefulWidget {
   @override
   State<BannerAdWidget> createState() => _BannerAdWidgetState();
@@ -16,7 +18,7 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
     super.initState();
     _bannerAd = BannerAd(
       size: AdSize.banner,
-      adUnitId: 'ca-app-pub-4830223047407077/4534700472', // test banner
+      adUnitId: AdHelper.bannerAdsIds, // test banner
       listener: BannerAdListener(
         onAdLoaded: (_) {
           setState(() => _isLoaded = true);

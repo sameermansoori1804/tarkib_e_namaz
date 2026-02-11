@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+import '../controller/AdHelper.dart';
+
 class NativeAdWidget extends StatefulWidget {
   @override
   State<NativeAdWidget> createState() => _NativeAdWidgetState();
@@ -11,7 +13,7 @@ class _NativeAdWidgetState extends State<NativeAdWidget> {
   bool _isLoaded = false;
 
   // Ad unit IDs - replace with your actual ad unit IDs
-  final String adUnitId = 'ca-app-pub-4830223047407077/1354729718'; // Test native ad
+  final String adUnitId = AdHelper.nativeAdsIds; // Test native ad
 
   @override
   void initState() {

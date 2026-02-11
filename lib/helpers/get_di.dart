@@ -2,11 +2,21 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_template/features/ads/controller/ads_controller.dart';
+import 'package:flutter_template/features/auth/controller/auth_controller.dart';
+import 'package:flutter_template/features/auth/domain/reposotories/auth_repository.dart';
+import 'package:flutter_template/features/auth/domain/reposotories/auth_repository_interface.dart';
+import 'package:flutter_template/features/auth/domain/services/auth_service.dart';
+import 'package:flutter_template/features/auth/domain/services/auth_service_interface.dart';
 import 'package:flutter_template/features/common/controller/location_controller.dart';
 import 'package:flutter_template/features/language/domain/reposotories/language_repository.dart';
 import 'package:flutter_template/features/language/domain/reposotories/language_repository_interface.dart';
 import 'package:flutter_template/features/prayer_time/controller/prayer_time_controller.dart';
 import 'package:flutter_template/features/qaza_namaz/controller/qaza_controller.dart';
+import 'package:flutter_template/features/sawal_jawab/controller/SawalJawabController.dart';
+import 'package:flutter_template/features/sawal_jawab/domain/reposotories/sawaljawab_repository.dart';
+import 'package:flutter_template/features/sawal_jawab/domain/reposotories/sawaljawab_repository_interface.dart';
+import 'package:flutter_template/features/sawal_jawab/domain/services/sawaljawab_services.dart';
+import 'package:flutter_template/features/sawal_jawab/domain/services/sawaljawab_services_interface.dart';
 import 'package:flutter_template/features/splash/domain/services/splash_services.dart';
 import 'package:flutter_template/features/splash/domain/services/splash_services_interface.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,7 +42,14 @@ Future<Map<String, Map<String, String>>> init() async {
   /// Repository interface
   SplashRepositoryInterface splashRepositoryInterface = SplashRepository(sharedPreferences: Get.find(), apiClient: Get.find());
   Get.lazyPut(() => splashRepositoryInterface);
-  
+
+
+  /// Repository interface
+  SawaljawabRepositoryInterface sawaljawabRepositoryInterface = SawaljawabRepository(sharedPreferences: Get.find(), apiClient: Get.find());
+  Get.lazyPut(() => sawaljawabRepositoryInterface);
+  AuthRepositoryInterface authRepositoryInterface = AuthRepository(sharedPreferences: Get.find(), apiClient: Get.find());
+  Get.lazyPut(() => authRepositoryInterface);
+
   LanguageRepositoryInterface languageRepositoryInterface = LanguageRepository(apiClient: Get.find(), sharedPreferences: Get.find());
   Get.lazyPut(()=>languageRepositoryInterface);
   
@@ -41,6 +58,14 @@ Future<Map<String, Map<String, String>>> init() async {
   SplashServiceInterface splashServiceInterface = SplashService(splashRepositoryInterface: Get.find());
   Get.lazyPut(() => splashServiceInterface);
 
+
+  AuthServiceInterface authServiceInterface = AuthService(authRepositoryInterface: Get.find());
+  Get.lazyPut(() => authServiceInterface);
+
+
+  SawaljawabServicesInterface sawaljawabServicesInterface = SawaljawabServices(sawaljawabRepositoryInterface: Get.find());
+  Get.lazyPut(() => sawaljawabServicesInterface);
+
   LanguageServiceInterface languageServiceInterface = LanguageService(languageRepositoryInterface: Get.find());
   Get.lazyPut(()=>languageServiceInterface);
 
@@ -48,8 +73,10 @@ Future<Map<String, Map<String, String>>> init() async {
   /// Controller
   // Get.lazyPut(() => SplashController(sharedPreferences: Get.find()));
   Get.lazyPut(() => SplashController(splashServiceInterface: Get.find()));
+  Get.lazyPut(() => Sawaljawabcontroller(sawaljawabServicesInterface: Get.find()));
   Get.lazyPut(() => LocationController());
   Get.lazyPut(() => AdsController());
+  Get.lazyPut(() => AuthController(authServiceInterface: Get.find()));
   Get.lazyPut(() => TasbihController());
   Get.lazyPut(() => QazaController());
   Get.lazyPut(() => PrayerTimeController());

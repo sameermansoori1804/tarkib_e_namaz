@@ -1,4 +1,5 @@
 
+import 'package:flutter_template/features/auth/screens/sign_in_screen.dart';
 import 'package:flutter_template/features/common/screens/pdf_viewer.dart';
 import 'package:flutter_template/features/home/domain/models/categories_model.dart';
 import 'package:flutter_template/features/home/screens/home_screens.dart';
@@ -16,6 +17,7 @@ import '../features/dashboard/screens/dashboard_screen.dart';
 import '../features/find_qibla/screens/find_qibla.dart';
 import '../features/home/screens/categories.dart';
 import '../features/quraan/screens/quraan_home_screen.dart';
+import '../features/sawal_jawab/screens/SawalJawabScreen.dart';
 import '../features/splash/screens/splash_screen.dart';
 
 
@@ -38,6 +40,11 @@ class AppRoutes {
     GetPage(
       name: RouteName.splashScreen,
       page: () => SplashScreen() ,
+      transitionDuration: Duration(milliseconds: 250),
+      transition: Transition.rightToLeftWithFade ,
+    ), GetPage(
+      name: RouteName.login,
+      page: () => SignInScreen(exitFromApp: false, backFromThis: false) ,
       transitionDuration: Duration(milliseconds: 250),
       transition: Transition.rightToLeftWithFade ,
     ),
@@ -93,6 +100,12 @@ class AppRoutes {
     GetPage(
       name: RouteName.pdfView,
       page: () => PdfViewerPage(pdfUrl: Get.parameters['pdfUrl'] ?? "",title: Get.parameters['title'] ?? "",) ,
+      transitionDuration: Duration(milliseconds: 250),
+      transition: Transition.rightToLeftWithFade ,
+    ),
+    GetPage(
+      name: RouteName.sawalJawab,
+      page: () => Sawaljawabscreen() ,
       transitionDuration: Duration(milliseconds: 250),
       transition: Transition.rightToLeftWithFade ,
     ),

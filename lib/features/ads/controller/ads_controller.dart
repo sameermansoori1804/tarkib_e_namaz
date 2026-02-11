@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+import 'AdHelper.dart';
+
 class AdsController extends GetxController {
   InterstitialAd? _interstitialAd;
   RewardedAd? _rewardedAd;
@@ -52,7 +54,7 @@ class AdsController extends GetxController {
       showInterstitialAd();
     }else{
       InterstitialAd.load(
-        adUnitId: 'ca-app-pub-3940256099942544/1033173712', // test interstitial
+        adUnitId: AdHelper.interstitialAdUnitId, // test interstitial
         request: const AdRequest(),
         adLoadCallback: InterstitialAdLoadCallback(
           onAdLoaded: (ad) {

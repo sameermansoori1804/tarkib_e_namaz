@@ -21,7 +21,11 @@ class AppConstants {
 
 
   static const String homeData = '/getsettings';
+  static const String questions = '/quetion';
+  static const String loginUri = '/loginUri';
   static const String loadMorePrayer = '/prayer-date';
+  static const String tokenUri = '/api/v1/user/cm-firebase-token';
+  static const String logout = '/api/v1/user/logout';
 
 
 
@@ -34,6 +38,9 @@ class AppConstants {
   static const String cacheLanguageCode = 'cache_language_code';
   static const String localizationKey = 'X-localization';
   static const String userAddress = '6ammart_user_address';
+  static const String notification = 'flexon_notification';
+  static const String topic = 'all_zone_customer';
+  static const String LANGUAGE_ID = 'language_id';
 
 
 
