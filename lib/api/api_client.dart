@@ -85,6 +85,7 @@ class ApiClient extends GetxService {
       bool handleError = true}) async {
     try {
       if (kDebugMode) {
+        print('====> API Call: $uri\nHeader: ${headers ?? _mainHeaders}');
 
       }
       http.Response response = await http

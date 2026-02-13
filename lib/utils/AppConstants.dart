@@ -22,7 +22,7 @@ class AppConstants {
 
   static const String homeData = '/getsettings';
   static const String questions = '/quetion';
-  static const String loginUri = '/loginUri';
+  static const String loginUri = '/login';
   static const String loadMorePrayer = '/prayer-date';
   static const String tokenUri = '/api/v1/user/cm-firebase-token';
   static const String logout = '/api/v1/user/logout';
