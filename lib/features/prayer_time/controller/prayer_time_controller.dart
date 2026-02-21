@@ -1,8 +1,13 @@
 import 'package:flutter_template/features/splash/controller/splash_controller.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../helpers/adhan_notification_service_helper.dart';
+import '../../../utils/audio.dart';
 import '../../home/domain/models/prayer_data.dart';
 import 'package:intl/intl.dart';
+
+import '../domain/models/salat_waqt.dart';
 
 class PrayerTimeController extends GetxController implements GetxService {
 
@@ -34,6 +39,11 @@ class PrayerTimeController extends GetxController implements GetxService {
 
 
 
+
+
+
+
+
   Future<void>  initData() async{
     _prayerTiming?.addAll(Get.find<SplashController>().prayerTime!.data as Iterable<Data>);
     for (var timing in _prayerTiming!) {
@@ -51,11 +61,7 @@ class PrayerTimeController extends GetxController implements GetxService {
           timing.isToday = isToday;
           _currentTiming = timing;
           if (isToday) {
-
             await getCurrentPrayerTimeTitle(timing.timings);
-
-
-            break; // Stop loop once today's date is found
           }
 
         } catch (e) {
@@ -65,9 +71,134 @@ class PrayerTimeController extends GetxController implements GetxService {
         timing.isToday = false;
       }
     }
+
+    setNotification();
     update();
 
   }
+
+  List<Data>? _notificationTimingList =[];
+  List<Data>? get notificationTimingList =>_notificationTimingList;
+
+  List<SalatWaqt> _salatList =[];
+  List<SalatWaqt> get salatList =>_salatList;
+
+
+  final adhanNotificationServices = AdhanNotificationServiceImpl();
+
+  void setNotification() async{
+    await adhanNotificationServices.cancelAllNotifications();
+    final today = DateTime.now();
+    _loadPreferences();
+    for (var timing in _prayerTiming!) {
+      final readableDate = timing.date?.readable;
+
+      if (readableDate != null) {
+        DateTime parsedDate = DateFormat("dd MMM yyyy").parse(readableDate);
+        DateTime fajrDateTime =getTime(readableDate,timing.timings?.fajr ?? "00:00");
+        DateTime zuharDateTime =getTime(readableDate,timing.timings?.dhuhr ?? "00:00");
+        DateTime asrDateTime =getTime(readableDate,timing.timings?.asr ?? "00:00");
+        DateTime magribDateTime =getTime(readableDate,timing.timings?.maghrib ?? "00:00");
+        DateTime ishaDateTime =getTime(readableDate,timing.timings?.isha ?? "00:00");
+        DateTime todayDate = DateTime(today.year, today.month, today.day);
+        DateTime compareDate = DateTime(parsedDate.year, parsedDate.month, parsedDate.day);
+        if (compareDate.isBefore(todayDate)) {
+          print("⛔ Past Date: $fajrDateTime");
+        } else{
+          final prefs = await SharedPreferences.getInstance();
+
+          String defaultName = Uri.parse(ringtoneFiles.values.first).pathSegments.last.split('.').first;
+
+          SalatWaqt salatWaqt1 = SalatWaqt(id: int.parse("1${parsedDate.day}"), name: "Fajr", time: fajrDateTime, isNotificationEnabled: prefs.getBool("Fajr_enabled") ?? true,ring: prefs.getString("Fajr_ring")?? defaultName);
+          SalatWaqt salatWaqt2 = SalatWaqt(id: int.parse("2${parsedDate.day}"), name: "Zuhar", time: zuharDateTime, isNotificationEnabled:prefs.getBool("Zuhr_enabled") ?? true,ring:prefs.getString('Zuhr_ring') ?? defaultName);
+          SalatWaqt salatWaqt3 = SalatWaqt(id: int.parse("3${parsedDate.day}"), name: "Asr", time: asrDateTime, isNotificationEnabled: prefs.getBool("Asr_enabled")?? true,ring: prefs.getString('Asr_ring') ?? defaultName);
+          SalatWaqt salatWaqt4 = SalatWaqt(id: int.parse("4${parsedDate.day}"), name: "Magrib", time: magribDateTime, isNotificationEnabled: prefs.getBool("Maghrib_enabled") ?? true,ring: prefs.getString('Maghrib_ring') ?? defaultName);
+          SalatWaqt salatWaqt5 = SalatWaqt(id: int.parse("5${parsedDate.day}"), name: "Isha", time: ishaDateTime, isNotificationEnabled: prefs.getBool("Isha_enabled") ?? true,ring: prefs.getString('Isha_ring') ?? defaultName);
+          setShaduleNotification(salatWaqt1);
+          setShaduleNotification(salatWaqt2);
+          setShaduleNotification(salatWaqt3);
+          setShaduleNotification(salatWaqt4);
+          setShaduleNotification(salatWaqt5);
+
+        }
+      }
+    }
+
+
+
+
+  }
+  final List<String> prayers = [
+    "Fajr",
+    "Zuhr",
+    "Asr",
+    "Maghrib",
+    "Isha",
+  ];
+
+  final Map<String, String> ringtoneFiles = {
+    "Adhan 1": Audio.Adhan_1,
+    "Adhan 2": Audio.Adhan_2,
+    "Adhan 3": Audio.Adhan_3,
+    "Beep 1": Audio.noti_1,
+    "Beep 2": Audio.noti_beep,
+    "Beep 3": Audio.noti_beep_beep,
+    "Siren": Audio.siren,
+  };
+
+
+  Map<String, bool> prayerSwitch = {};
+  Map<String, String> selectedRingtone = {};
+  Future<void> _loadPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    for (var prayer in prayers) {
+      prayerSwitch[prayer] = prefs.getBool("${prayer}_enabled") ?? false;
+
+      String defaultName = Uri.parse(ringtoneFiles.keys.first).pathSegments.last.split('.').first;
+      selectedRingtone[prayer] = prefs.getString("${prayer}_ring") ?? defaultName;
+    }
+
+  }
+  cancelNotification()async {
+
+    setNotification();
+  }
+
+  setShaduleNotification(SalatWaqt salatWaqt)async{
+
+
+    if(salatWaqt.isNotificationEnabled){
+      final time = salatWaqt.time.toLocal();
+      print(time);
+      print(salatWaqt.id);
+      print(salatWaqt.isNotificationEnabled);
+      print(salatWaqt.name);
+      print('farukh------->');
+      await adhanNotificationServices.scheduleNotification(
+        id: salatWaqt.id,
+        title: salatWaqt.name.toLowerCase().tr,
+        body: '${'time_for'.tr} ${salatWaqt.name} ${'started_at'.tr} ${DateFormat.jm().format(time)}',
+        dateTime: time,
+        payload: time.toIso8601String(),
+        ring:  salatWaqt.ring
+      );
+    }
+  }
+
+
+  DateTime getTime(String readableDate,String time){
+    DateTime parsedDate = DateFormat("dd MMM yyyy").parse(readableDate);
+    String fajrRaw = time ?? "00:00";
+    String fajrClean = fajrRaw.split(' ').first;
+    List<String> timeParts = fajrClean.split(":");
+    int hour = int.parse(timeParts[0]);
+    int minute = int.parse(timeParts[1]);
+    DateTime fajrDateTime = DateTime(parsedDate.year, parsedDate.month, parsedDate.day, hour, minute,);
+    return fajrDateTime;
+  }
+
+
 String formatPrayerTime(String timeString) {
   // Remove the " (IST)" part
   String cleanTime = timeString.split(" ").first;
@@ -83,6 +214,8 @@ String formatPrayerTime(String timeString) {
   }
 
    getCurrentPrayerTimeTitle(Timings? timings) async {
+
+    print("farukh------------->125");
       DateTime now = DateTime.now();
 
       // Helper function to create DateTime for a prayer time
@@ -107,17 +240,18 @@ String formatPrayerTime(String timeString) {
 
       // Adjust for midnight crossing (isha to next day's fajr)
       DateTime nextDayFajr = fajr.add(Duration(days: 1));
+     String nextDayFajrFormatted = DateFormat('h:mm a').format(nextDayFajr);
 
+      final currentTime = DateTime.now(); // Current time
 
       // Check current time against each prayer time range
       if (now.isAfter(fajr) && now.isBefore(sunrise)) {
         _title =  'Fajr';
         _currentPrayerTime = formatPrayerTime(timings.fajr ?? "00:00");
         final timi = {
-          'fajr': formatPrayerTime2(timings.asr ?? "00:00"),
-          'sunrise': formatPrayerTime2(timings.maghrib ?? "00:00"),
+          'fajr': formatPrayerTime2(timings.fajr ?? "00:00"),
+          'sunrise': formatPrayerTime2(timings.dhuhr ?? "00:00"),
         };
-        final currentTime = DateTime.now(); // Current time
 
         final timeDiffs = getTimeDifferences(timi, currentTime);
         print("${_progress}");
@@ -125,11 +259,20 @@ String formatPrayerTime(String timeString) {
       } else if (now.isAfter(sunrise) && now.isBefore(dhuhr)) {
         _title = 'Sunrise';
         _currentPrayerTime =  formatPrayerTime(timings.sunrise ?? "00:00");
+        final timi = {
+          'current_prayer': formatPrayerTime(timings.sunrise ?? "00:00"),
+          'next_prayer': formatPrayerTime(timings.dhuhr ?? "00:00"),
+        };
 
+        getTimeDifferences(timi, currentTime);
       } else if (now.isAfter(dhuhr) && now.isBefore(asr)) {
         _title = 'Dhuhr';
         _currentPrayerTime =  formatPrayerTime(timings.dhuhr ?? "00:00");
-
+        final timi = {
+          'current_prayer': formatPrayerTime(timings.dhuhr ?? "00:00"),
+          'next_prayer': formatPrayerTime(timings.asr ?? "00:00"),
+        };
+        getTimeDifferences(timi, currentTime);
       } else if (now.isAfter(asr) && now.isBefore(maghrib)) {
         _title = 'Asr';
         _currentPrayerTime =  formatPrayerTime(timings.asr ?? "00:00");
@@ -137,18 +280,25 @@ String formatPrayerTime(String timeString) {
           'current_prayer': formatPrayerTime(timings.asr ?? "00:00"),
           'next_prayer': formatPrayerTime(timings.maghrib ?? "00:00"),
         };
-        final currentTime = DateTime.now();
         getTimeDifferences(timi, currentTime);
 
 
       } else if (now.isAfter(maghrib) && now.isBefore(isha)) {
         _title = 'Maghrib';
         _currentPrayerTime =  formatPrayerTime(timings.maghrib ?? "00:00");
-
+        final timi = {
+          'current_prayer': formatPrayerTime(timings.maghrib ?? "00:00"),
+          'next_prayer': formatPrayerTime(timings.isha ?? "00:00"),
+        };
+        getTimeDifferences(timi, currentTime);
       } else if (now.isAfter(isha) && now.isBefore(nextDayFajr)) {
           _title = 'Isha';
         _currentPrayerTime =  formatPrayerTime(timings.isha ?? "00:00");
-
+          final timi = {
+            'current_prayer': formatPrayerTime(timings.isha ?? "00:00"),
+            'next_prayer': formatPrayerTime(timings.fajr ?? "00:00"),
+          };
+          getTimeDifferences(timi, currentTime,next: true);
       }
 
       update();
@@ -156,10 +306,16 @@ String formatPrayerTime(String timeString) {
   }
 
 
-  Map<String, dynamic> getTimeDifferences(Map<String, String?> timings, DateTime currentTime) {
+  Map<String, dynamic> getTimeDifferences(Map<String, String?> timings, DateTime currentTime ,{bool next = false}) {
+
+
+
     // Helper function to parse "HH:mm AM/PM" into DateTime (today)
-    DateTime parseTime(String timeStr) {
-      final now = DateTime.now();
+    DateTime parseTime(String timeStr,{bool next = false}) {
+      var now = DateTime.now();
+      if(next){
+        now = now.add(Duration(days: 1));
+      }
       final timeParts = timeStr.split(' ');
       final time = timeParts[0].split(':');
       final hour = int.parse(time[0]);
@@ -179,7 +335,7 @@ String formatPrayerTime(String timeString) {
 
     // Get current_prayer and next_prayer times (default to "00:00 AM" if null)
     final currentPrayerTime = parseTime(timings['current_prayer'] ?? '00:00 AM');
-    final nextPrayerTime = parseTime(timings['next_prayer'] ?? '00:00 AM');
+    final nextPrayerTime = parseTime(timings['next_prayer'] ?? '00:00 AM',next: next);
 
     // Calculate differences in minutes
     final currentToNextDiff = nextPrayerTime.difference(currentPrayerTime).inMinutes;
@@ -200,26 +356,36 @@ String formatPrayerTime(String timeString) {
 
     _remainingTime  = formatDuration(remainingTimeDiff);
     _progress  = (remainingTimeDiff/currentToNextDiff)*150;
+    update();
     return {
       'current_to_next': formatDuration(currentToNextDiff),
       'remaining_time': formatDuration(remainingTimeDiff),
       'current_to_next_minutes': currentToNextDiff,
       'remaining_minutes': remainingTimeDiff,
     };
+
   }
 
 
 Future<void>  setCurrentData(Data todayTimming) async{
 
     _currentTiming = todayTimming;
-    update();
+    update(["prayer"]);
   }
 
   Future<void>  setCurrentTime(String todayTimming,String title) async{
 
     _currentPrayerTime = todayTimming;
     _title = title;
-    update();
+    update(["prayer"]);
   }
 
+
+
+
+
+
+
+
 }
+

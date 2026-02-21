@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/features/common/widgets/comman_app_bar.dart';
+import 'package:get/get.dart';
 import 'package:page_flip/page_flip.dart';
 import '../../../helpers/zip_helper.dart';
 
@@ -77,7 +78,7 @@ class _QuraanPageViewState extends State<QuraanPageView> {
           backgroundColor: Colors.white,
           lastPage: Container(
             color: Colors.white,
-            child: const Center(child: Text('Last Page!')),
+            child:  Center(child: Text('last_page'.tr)),
           ),
           children: images.map((image) {
             return Container(

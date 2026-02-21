@@ -23,9 +23,16 @@ class AppConstants {
   static const String homeData = '/getsettings';
   static const String questions = '/quetion';
   static const String loginUri = '/login';
+  static const String config = '/config';
+  static const String get_compition_task = '/get-compition-task';
+  static const String leaderboard = '/leader-board';
+  static const String walletHistory = '/wallet-history';
+  static const String withdrawalRequest = '/withdraw-request';
+  static const String user = '/user';
+  static const String logout = '/user/logout';
+  static const String tokenUri = '/user/cm-firebase-token';
+  static const String taskSubmit = '/task-submit';
   static const String loadMorePrayer = '/prayer-date';
-  static const String tokenUri = '/api/v1/user/cm-firebase-token';
-  static const String logout = '/api/v1/user/logout';
 
 
 
@@ -52,11 +59,11 @@ class AppConstants {
     //     languageName: 'English',
     //     countryCode: 'US',
     //     languageCode: 'en'),
-    // LanguageModel(
-    //     imageUrl: Images.arabic,
-    //     languageName: 'عربى',
-    //     countryCode: 'SA',
-    //     languageCode: 'ar'),
+    LanguageModel(
+        imageUrl: Images.english,
+        languageName: 'عربى',
+        countryCode: 'SA',
+        languageCode: 'ar'),
 
     LanguageModel(
         imageUrl: Images.english,

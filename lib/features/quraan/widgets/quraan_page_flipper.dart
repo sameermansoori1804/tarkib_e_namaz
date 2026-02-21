@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class QuraanRTLPageFlipper extends StatefulWidget {
   final List<File> pages;
@@ -217,7 +218,7 @@ class QuraanPagePainter extends CustomPainter {
     paint.color = Colors.black87;
     final textPainter = TextPainter(
       text: TextSpan(
-        text: 'Page: ${page.path.split('/').last}',
+        text: 'page_label'.trParams({'page': page.path.split('/').last}),
         style: const TextStyle(color: Colors.black87, fontSize: 24),
       ),
       textDirection: TextDirection.rtl,

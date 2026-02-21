@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../api/api_client.dart';
 import '../../../../utils/AppConstants.dart';
+import '../../../auth/domain/models/user.dart';
 import '../../../home/domain/models/home_data.dart';
 import '../../../home/domain/models/prayer_data.dart';
 
@@ -19,6 +20,23 @@ class SplashRepository implements SplashRepositoryInterface {
   }
 
   @override
+  Future<UserModel?> getUserData() async {
+    try {
+      Response response = await apiClient.getData(AppConstants.user);
+      print("farukh------->");
+      print(response.body);
+
+      if (response.statusCode == 200) {
+        return UserModel.fromJson(response.body);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print("Get User Error: $e");
+      return null;
+    }
+  }
+  @override
   Future<HomeData?> getHomeData(Map<String, dynamic> body) async {
 
     HomeData? homeData;
@@ -31,6 +49,14 @@ class SplashRepository implements SplashRepositoryInterface {
 
     }
     return homeData;
+  }
+
+  @override
+  Future<Response> getConfigData() async {
+
+
+    return await apiClient.getData(AppConstants.config);
+
   }
   @override
   Future<List<Data>?> getLoadMorePrayer(Map<String, dynamic> body) async {

@@ -23,10 +23,7 @@ class _HomeCategoryViewState extends State<HomeCategoryView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    final adsController = Get.find<AdsController>();
-    Future.delayed(const Duration(seconds: 60), () {
-      adsController.loadInterstitialAd();
-    });
+
   }
   @override
   Widget build(BuildContext context) {
@@ -50,10 +47,10 @@ class _HomeCategoryViewState extends State<HomeCategoryView> {
                     ),
                     InkWell(
                       onTap: (){
-                        Get.toNamed(AppRoutes.getCategoriesScreen(index)); // Replace with your HomeScreen route
+                        Get.toNamed(AppRoutes.getCategoriesScreen(index,'${splashController.categories![index].title!}')); // Replace with your HomeScreen route
                       },
-                      child: const Text(
-                        "View All",
+                      child:  Text(
+                        "view_all".tr,
                         style: TextStyle(color: Colors.teal),
                       ),
                     ),
@@ -101,14 +98,14 @@ class _HomeCategoryViewState extends State<HomeCategoryView> {
                                 child: CachedNetworkImage(
                                   imageUrl: (post.thumbnail != null && post.thumbnail!.isNotEmpty)
                                       ? post.thumbnail!
-                                      : "invalid-url", // Forces errorWidget if blank
+                                      : "invalid_url".tr, // Forces errorWidget if blank
                                   fit: BoxFit.cover,
                                   placeholder: (context, url) => Image.asset(
-                                   Images.noInternet,
+                                   Images.placeholder,
                                     fit: BoxFit.cover,
                                   ),
                                   errorWidget: (context, url, error) => Image.asset(
-                                    Images.noInternet,
+                                    Images.placeholder,
                                     fit: BoxFit.cover,
                                   ),
                                 ),

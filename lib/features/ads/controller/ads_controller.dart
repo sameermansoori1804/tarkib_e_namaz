@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_template/route/routes_name.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
@@ -12,45 +13,9 @@ class AdsController extends GetxController {
   bool isLoading = false;
   // Interstitial Ad
   void loadInterstitialAd() {
-    Get.dialog(
-      Center(
-        child: Container(
-          width: 220,
-          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.15),
-                blurRadius: 12,
-                offset: const Offset(0, 6),
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              CircularProgressIndicator(),
-              SizedBox(height: 16),
-              Text(
-                "Please wait,\nloading ads…",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black87,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      barrierDismissible: false
-    );
 
     if(_interstitialAd != null){
-      if (Get.isDialogOpen == true) Get.back(); // close loader
+
       showInterstitialAd();
     }else{
       InterstitialAd.load(
@@ -59,11 +24,11 @@ class AdsController extends GetxController {
         adLoadCallback: InterstitialAdLoadCallback(
           onAdLoaded: (ad) {
             _interstitialAd = ad;
-            if (Get.isDialogOpen == true) Get.back(); // close loader
+
             showInterstitialAd();
           },
           onAdFailedToLoad: (error) {
-            if (Get.isDialogOpen == true) Get.back(); // close loader
+
             print('Interstitial failed to load: $error');
           },
         ),
@@ -73,6 +38,11 @@ class AdsController extends GetxController {
   }
 
   void showInterstitialAd() {
+
+    // ❌ Do not show ad on Quran page
+    if (Get.currentRoute == RouteName.quraanPageScreen) {
+      return;
+    }
     if (_interstitialAd != null) {
       _interstitialAd!.show();
       _interstitialAd = null;
@@ -82,10 +52,11 @@ class AdsController extends GetxController {
   // Rewarded Ad
   void loadRewardedAd() {
     RewardedAd.load(
-      adUnitId: 'ca-app-pub-4830223047407077/5572449975', // test rewarded
+      adUnitId: 'ca-app-pub-3940256099942544/5354046379', // test rewarded
       request: const AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (ad) {
+          print("rewarded ads load success");
           _rewardedAd = ad;
         },
         onAdFailedToLoad: (error) {
@@ -127,11 +98,5 @@ class AdsController extends GetxController {
     }
   }
 
-  @override
-  void onClose() {
-    _interstitialAd?.dispose();
-    _rewardedAd?.dispose();
-    _appOpenAd?.dispose();
-    super.onClose();
-  }
+
 }

@@ -35,73 +35,79 @@ class QazaController extends GetxController implements GetxService {
     update(); // Notify listeners
   }
 
-  /// Save updated values to SharedPreferences
-  Future<void> saveQazaData() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    await prefs.setInt('fazr', _fazr);
-    await prefs.setInt('zuhar', _zuhar);
-    await prefs.setInt('asr', _asr);
-    await prefs.setInt('magrib', _magrib);
-    await prefs.setInt('isha', _isha);
-    await prefs.setInt('roza', _roza);
-  }
 
   /// Example: incrementing and saving
-  void increment(String type) {
-    switch (type) {
-      case "Fazr":
-        _fazr++;
-        break;
-      case "Zuhar":
-        _zuhar++;
-        break;
-      case "Asr":
-        _asr++;
-        break;
-      case "Magrib":
-        _magrib++;
-        break;
-      case "Isha":
-        _isha++;
-        break;
-      case "Roza":
-        _roza++;
-        break;
-      default:
-        throw ArgumentError("Invalid Qaza type: $type");
-    }
-
-    saveQazaData();
-    update();
-  }
-
-
-  void decrement(String type) {
+  void increment(String type) async{
+    print("farukh----->");
+    print("farukh----->$type");
+    final prefs = await SharedPreferences.getInstance();
     switch (type) {
       case "fazr":
         _fazr++;
+        await prefs.setInt('fazr', _fazr);
         break;
       case "zuhar":
         _zuhar++;
+        await prefs.setInt('zuhar', _zuhar);
         break;
       case "asr":
         _asr++;
+        await prefs.setInt('asr', _asr);
         break;
       case "magrib":
+        await prefs.setInt('magrib', _magrib);
         _magrib++;
         break;
       case "isha":
+        await prefs.setInt('isha', _isha);
         _isha++;
         break;
       case "roza":
+        await prefs.setInt('roza', _roza);
         _roza++;
         break;
       default:
         throw ArgumentError("Invalid Qaza type: $type");
     }
-
-    saveQazaData();
     update();
+
+
+  }
+
+
+  void decrement(String type) async {
+    print("farukh----->");
+    print("farukh----->$type");
+    final prefs = await SharedPreferences.getInstance();
+    switch (type) {
+      case "fazr":
+        _fazr--;
+        await prefs.setInt('fazr', _fazr);
+        break;
+      case "zuhar":
+        _zuhar--;
+        await prefs.setInt('zuhar', _zuhar);
+        break;
+      case "asr":
+        _asr--;
+        await prefs.setInt('asr', _asr);
+        break;
+      case "magrib":
+        _magrib--;
+        await prefs.setInt('magrib', _magrib);
+        break;
+      case "isha":
+        _isha--;
+        await prefs.setInt('isha', _isha);
+        break;
+      case "roza":
+        await prefs.setInt('roza', _roza);
+        _roza--;
+        break;
+      default:
+        throw ArgumentError("Invalid Qaza type: $type");
+    }
+    update();
+
   }
 }

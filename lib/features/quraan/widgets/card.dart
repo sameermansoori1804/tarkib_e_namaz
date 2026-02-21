@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_template/features/quraan/domain/models/Quraan.dart';
 import 'package:flutter_template/utils/app_color.dart';
+import 'package:get/get.dart';
 
 import '../../../utils/images.dart';
 import '../domain/models/ParaItem.dart';
@@ -53,7 +54,7 @@ class IslamicCard extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                   '${itemData.id}',
+                    '${itemData.id}',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 12,
@@ -81,10 +82,10 @@ class IslamicCard extends StatelessWidget {
               bottom: 2,
               left: 2,
               child: Image.asset(
-                  Images.bottom_left,
-                  width: 60,
-                  height: 60,
-                  color: AppColor.primaryColor,
+                Images.bottom_left,
+                width: 60,
+                height: 60,
+                color: AppColor.primaryColor,
 
               ),
             ),
@@ -122,15 +123,15 @@ class IslamicCard extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(width: 2),
+                    const SizedBox(width: 2),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                       decoration: BoxDecoration(
                         color: AppColor.primaryColor,
-                        borderRadius: BorderRadius.only(topLeft: Radius.circular(8),bottomLeft: Radius.circular(8)),
+                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
                       ),
                       child: Text(
-                        'Total Ruku',
+                        'total_ruku'.tr,
                         style: TextStyle(
                           fontSize: 10,
                           color: Colors.white,
@@ -138,7 +139,7 @@ class IslamicCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: 2),
+                    const SizedBox(width: 2),
                     Image.asset(
                       Images.quraan_logo, // Your book icon image
                       width: 20,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_template/utils/images.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter_compass/flutter_compass.dart';
+import 'package:get/get.dart';
 
 class QiblaCompassApp extends StatelessWidget {
   const QiblaCompassApp({Key? key}) : super(key: key);
@@ -147,7 +148,7 @@ class _QiblaCompassScreenState extends State<QiblaCompassScreen> {
                   const SizedBox(width: 10),
                   Text(
                     _position == null
-                        ? 'Getting location...'
+                        ? 'getting_location'.tr
                         : '${_position!.latitude.toStringAsFixed(6)}, ${_position!.longitude.toStringAsFixed(6)}',
                     style: const TextStyle(fontSize: 18, color: Colors.white),
                   ),
@@ -293,7 +294,7 @@ class _QiblaCompassScreenState extends State<QiblaCompassScreen> {
               ),
               child: Text(
                 _position == null
-                    ? 'Calculating Qibla...'
+                    ? 'calculating_qibla'.tr
                     : _qiblaDirection.toStringAsFixed(4),
                 style: const TextStyle(fontSize: 20, color: Colors.white),
               ),

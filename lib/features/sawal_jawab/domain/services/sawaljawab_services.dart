@@ -20,7 +20,7 @@ class SawaljawabServices implements SawaljawabServicesInterface{
   SawaljawabServices({required this.sawaljawabRepositoryInterface});
 
   @override
-  Future<List<QuestionModel>> getQuetionData(int page) async{
+  Future<Response> getQuetionData(int page) async{
     // TODO: implement getQuetionData
     return await sawaljawabRepositoryInterface.getQuetionData(page);
   }

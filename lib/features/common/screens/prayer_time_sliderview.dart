@@ -44,7 +44,7 @@ class PrayerTimesSlider extends StatelessWidget {
                           .date!
                           .gregorian!
                           .date ??
-                      "";
+                          "";
 
                   DateTime parsedDate = DateFormat(
                     "dd-MM-yyyy",
@@ -54,8 +54,8 @@ class PrayerTimesSlider extends StatelessWidget {
                   DateTime today = DateTime.now();
                   bool isToday =
                       parsedDate.year == today.year &&
-                      parsedDate.month == today.month &&
-                      parsedDate.day == today.day;
+                          parsedDate.month == today.month &&
+                          parsedDate.day == today.day;
                   if (isToday) {
                     Get.find<PrayerTimeController>().setCurrentData(
                       splashController.prayerTime!.data![index],
@@ -66,32 +66,32 @@ class PrayerTimesSlider extends StatelessWidget {
                     margin: EdgeInsets.symmetric(horizontal: 8),
                     child: PrayerTimesWidget(
                       date:
-                          splashController
-                              .prayerTime!
-                              .data![index]
-                              .date!
-                              .gregorian!
-                              .date ??
+                      splashController
+                          .prayerTime!
+                          .data![index]
+                          .date!
+                          .gregorian!
+                          .date ??
                           "",
                       hijriDate:
-                          splashController
-                              .prayerTime!
-                              .data![index]
-                              .date!
-                              .hijri!
-                              .date ??
+                      splashController
+                          .prayerTime!
+                          .data![index]
+                          .date!
+                          .hijri!
+                          .date ??
                           "",
                       address: Get.find<LocationController>().address ?? "",
                       festival:
-                          splashController
-                              .prayerTime!
-                              .data![index]
-                              .date!
-                              .gregorian!
-                              .date ??
+                      splashController
+                          .prayerTime!
+                          .data![index]
+                          .date!
+                          .gregorian!
+                          .date ??
                           "",
                       prayerTimes:
-                          splashController.prayerTime!.data![index].timings ??
+                      splashController.prayerTime!.data![index].timings ??
                           Timings(),
                       isToday: isToday,
                     ),
@@ -160,7 +160,7 @@ class PrayerTimesWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Date',
+                      'date_label'.tr,
                       style: TextStyle(
                         color: Colors.white70,
                         fontSize: 12,
@@ -181,7 +181,7 @@ class PrayerTimesWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      'Hijari Date',
+                      'hijri_date_label'.tr,
                       style: TextStyle(
                         color: Colors.white70,
                         fontSize: 12,
@@ -212,7 +212,7 @@ class PrayerTimesWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Address',
+                        'address_label'.tr,
                         style: TextStyle(
                           color: Colors.white70,
                           fontSize: 12,
@@ -232,31 +232,7 @@ class PrayerTimesWidget extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        'Festival',
-                        style: TextStyle(
-                          color: Colors.white70,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      Text(
-                        festival,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.end,
-                      ),
-                    ],
-                  ),
-                ),
+
               ],
             ),
 
@@ -273,7 +249,7 @@ class PrayerTimesWidget extends StatelessWidget {
                     String time = "";
                     switch (index) {
                       case 0: // Fajr → Sunrise
-                        title = "Fazr";
+                        title = "fazr".tr;
                         time = formatPrayerTime(prayerTimes!.fajr ?? "00:00");
                         if (isToday) {
                           isActive = checkCurrentTime(
@@ -285,7 +261,7 @@ class PrayerTimesWidget extends StatelessWidget {
                         break;
 
                       case 1: // Sunrise → Dhuhr
-                        title = "Sunrise";
+                        title = "sunrise".tr;
                         time = formatPrayerTime(
                           prayerTimes!.sunrise ?? "00:00",
                         );
@@ -298,7 +274,7 @@ class PrayerTimesWidget extends StatelessWidget {
                         break;
 
                       case 2: // Dhuhr → Asr
-                        title = "Dhuhr";
+                        title = "zuhar".tr;
                         time = formatPrayerTime(prayerTimes!.dhuhr ?? "00:00");
                         if (isToday) {
                           isActive = checkCurrentTime(
@@ -309,7 +285,7 @@ class PrayerTimesWidget extends StatelessWidget {
                         break;
 
                       case 3: // Asr → Maghrib
-                        title = "Asr";
+                        title = "asr".tr;
                         time = formatPrayerTime(prayerTimes!.asr ?? "00:00");
                         if (isToday) {
                           isActive = checkCurrentTime(
@@ -320,7 +296,7 @@ class PrayerTimesWidget extends StatelessWidget {
                         break;
 
                       case 4: // Maghrib → Isha
-                        title = "Maghrib";
+                        title = "magrib".tr;
                         time = formatPrayerTime(
                           prayerTimes!.maghrib ?? "00:00",
                         );
@@ -332,7 +308,7 @@ class PrayerTimesWidget extends StatelessWidget {
                         }
                         break;
                       case 5: // Maghrib → Isha
-                        title = "Isha";
+                        title = "isha".tr;
                         time = formatPrayerTime(prayerTimes!.isha ?? "00:00");
                         if (isToday) {
                           isActive = checkCurrentTime(
@@ -409,9 +385,9 @@ class PrayerTimesWidget extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
         color:
-            isActive
-                ? Color(0xFF4A90E2).withOpacity(0.3)
-                : Colors.white.withOpacity(0.1),
+        isActive
+            ? Color(0xFF4A90E2).withOpacity(0.3)
+            : Colors.white.withOpacity(0.1),
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
           color: isActive ? Color(0xFF4A90E2) : Colors.white.withOpacity(0.2),

@@ -13,7 +13,7 @@ class AdHelper {
   // Rewarded
   static String get rewardedAdUnitId {
     if (kReleaseMode) {
-      return 'ca-app-pub-4830223047407077/5572449975';
+      return 'ca-app-pub-3940256099942544/5224354917';
     } else {
       return 'ca-app-pub-3940256099942544/5224354917'; // test
     }

@@ -14,8 +14,6 @@ class QazaNamazScreen extends StatefulWidget {
 
 class _QazaNamazScreenState extends State<QazaNamazScreen> {
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +26,7 @@ class _QazaNamazScreenState extends State<QazaNamazScreen> {
           color: AppColor.white,
         ),
         title: Text(
-          'Qaza Namaz',
+          'qaza_namaz'.tr,
           style: TextStyle(
             color: AppColor.white,
             fontSize: 20,
@@ -81,7 +79,7 @@ class _QazaNamazScreenState extends State<QazaNamazScreen> {
                       );
                     },
                     child: Text(
-                      'Guid Qaza Namaz',
+                      'namaz_guide_qaza'.tr,
                       style: TextStyle(
                         color: Colors.grey[700],
                         fontSize: 14,
@@ -111,16 +109,16 @@ class _QazaNamazScreenState extends State<QazaNamazScreen> {
                   return Column(
                     children: [
                       // Prayer counters
-                      _buildPrayerCounter("Fazr", qazaController.fazr,qazaController),
-                      _buildPrayerCounter("Zuhar", qazaController.zuhar,qazaController),
-                      _buildPrayerCounter("Asr", qazaController.asr,qazaController),
-                      _buildPrayerCounter("Magrib", qazaController.magrib,qazaController),
-                      _buildPrayerCounter("Isha", qazaController.isha,qazaController),
+                      _buildPrayerCounter("fazr".tr, qazaController.fazr,qazaController,"fazr"),
+                      _buildPrayerCounter("zuhar".tr, qazaController.zuhar,qazaController,"zuhar"),
+                      _buildPrayerCounter("asr".tr, qazaController.asr,qazaController,"asr"),
+                      _buildPrayerCounter("magrib".tr, qazaController.magrib,qazaController,"magrib"),
+                      _buildPrayerCounter("isha".tr, qazaController.isha,qazaController,"isha"),
 
                       SizedBox(height: 20),
 
                       // Roza counter (separated)
-                      _buildPrayerCounter("Roza", qazaController.roza,qazaController),
+                      _buildPrayerCounter("roza".tr, qazaController.roza,qazaController,"roza"),
 
 
                       Spacer(),
@@ -146,7 +144,7 @@ class _QazaNamazScreenState extends State<QazaNamazScreen> {
     );
   }
 
-  Widget _buildPrayerCounter(String prayerName, int count, QazaController qazaController) {
+  Widget _buildPrayerCounter(String prayerName, int count, QazaController qazaController,String prayerKey) {
     return Container(
       margin: EdgeInsets.only(bottom: 8),
       padding: EdgeInsets.all(8),
@@ -185,7 +183,7 @@ class _QazaNamazScreenState extends State<QazaNamazScreen> {
             children: [
               // Minus button
               GestureDetector(
-                onTap: ()=>qazaController.decrement(prayerName),
+                onTap: ()=>qazaController.decrement(prayerKey),
                 child: Container(
                   width: 36,
                   height: 36,
@@ -218,7 +216,7 @@ class _QazaNamazScreenState extends State<QazaNamazScreen> {
 
               // Plus button
               GestureDetector(
-                onTap: ()=>qazaController.increment(prayerName),
+                onTap: ()=>qazaController.increment(prayerKey),
                 child: Container(
                   width: 36,
                   height: 36,

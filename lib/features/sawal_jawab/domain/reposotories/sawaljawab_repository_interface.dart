@@ -6,7 +6,7 @@ import '../../../home/domain/models/prayer_data.dart';
 import '../models/question_model.dart';
 
 abstract class SawaljawabRepositoryInterface extends RepositoryInterface {
-  Future<List<QuestionModel>> getQuetionData(int page);
+  Future<Response> getQuetionData(int page);
   Future<Response> askQuestion(String question);
 
 

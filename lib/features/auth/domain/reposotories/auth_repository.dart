@@ -94,6 +94,7 @@ class AuthRepository implements AuthRepositoryInterface{
         // FirebaseMessaging.instance.subscribeToTopic('zone_${AddressHelper.getUserAddressFromSharedPref()!.zoneId}_customer');
       }
     }
+    print("farukh---khan");
     return await apiClient.postData(AppConstants.tokenUri, {"_method": "put", "cm_firebase_token": notificationDeviceToken.isNotEmpty ? notificationDeviceToken : deviceToken}, handleError: false);
   }
 
@@ -129,19 +130,12 @@ class AuthRepository implements AuthRepositoryInterface{
 
   @override
   Future<bool> clearSharedData({bool removeToken = true}) async {
-    if(!GetPlatform.isWeb) {
-      FirebaseMessaging.instance.unsubscribeFromTopic(AppConstants.topic);
-      // FirebaseMessaging.instance.unsubscribeFromTopic('zone_${AddressHelper.getUserAddressFromSharedPref()!.zoneId}_customer');
-      if(removeToken){
-        apiClient.postData(AppConstants.tokenUri, {"_method": "put", "cm_firebase_token": '@'}, handleError: false);
-      }
-    }
+
     sharedPreferences.remove(AppConstants.token);
     apiClient.token = null;
     if(sharedPreferences.getString(AppConstants.userAddress) != null){
       // AddressModel? addressModel = AddressModel.fromJson(jsonDecode(sharedPreferences.getString(AppConstants.userAddress)!));
-      apiClient.updateHeader(
-        null, sharedPreferences.getString(AppConstants.LANGUAGE_ID)
+      apiClient.updateHeader(null, sharedPreferences.getString(AppConstants.LANGUAGE_ID)
       );
     }
     return true;

@@ -1,6 +1,7 @@
 import 'package:flutter_template/features/sawal_jawab/domain/models/question_model.dart';
 import 'package:flutter_template/features/sawal_jawab/domain/reposotories/sawaljawab_repository_interface.dart';
 import 'package:flutter_template/features/splash/domain/reposotories/splash_repository_interface.dart';
+import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -53,32 +54,11 @@ class SawaljawabRepository implements SawaljawabRepositoryInterface {
 
   }
   @override
-  Future<List<QuestionModel>> getQuetionData(int page) async {
-    try {
+  Future<Response> getQuetionData(int page) async {
       Response response =
       await apiClient.getData('${AppConstants.questions}/$page');
+      return response;
 
-      if (response.statusCode == 200) {
-        List data = [];
-
-        // 🔥 CASE 1: if API returns list directly
-        if (response.body is List) {
-          data = response.body;
-        }
-
-        // 🔥 CASE 2: if API returns { data: [] }
-        else if (response.body['data'] != null) {
-          data = response.body['data'];
-        }
-
-        return data.map((e) => QuestionModel.fromJson(e)).toList();
-      } else {
-        return [];
-      }
-    } catch (e) {
-      print("Question API error: $e");
-      return [];
-    }
   }
 
 

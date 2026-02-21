@@ -50,7 +50,7 @@ class GuideDialog extends StatelessWidget {
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(16),
               child: Text(
-                'namaz_guide'.tr,
+                'namaz_guide_details'.tr,
                 style: const TextStyle(fontSize: 16),
               ),
             ),
@@ -69,7 +69,7 @@ class GuideDialog extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   border: Border(top: BorderSide(color: Colors.grey, width: 0.5)),
                 ),
-                child: Center(child: const Text("Close",style: TextStyle(color: AppColor.white,fontWeight: FontWeight.w700,fontSize: 18),)),
+                child: Center(child: Text("close".tr,style: TextStyle(color: AppColor.white,fontWeight: FontWeight.w700,fontSize: 18),)),
               ),
             ),
           ),

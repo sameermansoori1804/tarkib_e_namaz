@@ -8,6 +8,12 @@ import 'package:flutter_template/features/auth/domain/reposotories/auth_reposito
 import 'package:flutter_template/features/auth/domain/services/auth_service.dart';
 import 'package:flutter_template/features/auth/domain/services/auth_service_interface.dart';
 import 'package:flutter_template/features/common/controller/location_controller.dart';
+import 'package:flutter_template/features/compitition/controller/CopetitionController.dart';
+import 'package:flutter_template/features/compitition/domain/reposotories/copetition_repository.dart';
+import 'package:flutter_template/features/compitition/domain/reposotories/copetition_repository_interface.dart';
+import 'package:flutter_template/features/compitition/domain/services/copetition_services.dart';
+import 'package:flutter_template/features/compitition/domain/services/copetition_services_interface.dart';
+import 'package:flutter_template/features/language/controller/theme_controller.dart';
 import 'package:flutter_template/features/language/domain/reposotories/language_repository.dart';
 import 'package:flutter_template/features/language/domain/reposotories/language_repository_interface.dart';
 import 'package:flutter_template/features/prayer_time/controller/prayer_time_controller.dart';
@@ -52,6 +58,8 @@ Future<Map<String, Map<String, String>>> init() async {
 
   LanguageRepositoryInterface languageRepositoryInterface = LanguageRepository(apiClient: Get.find(), sharedPreferences: Get.find());
   Get.lazyPut(()=>languageRepositoryInterface);
+  CopetitionRepositoryInterface copetitionRepositoryInterface = CopetitionRepository(apiClient: Get.find(), sharedPreferences: Get.find());
+  Get.lazyPut(()=>copetitionRepositoryInterface);
   
   /// Service Interface
 
@@ -61,6 +69,9 @@ Future<Map<String, Map<String, String>>> init() async {
 
   AuthServiceInterface authServiceInterface = AuthService(authRepositoryInterface: Get.find());
   Get.lazyPut(() => authServiceInterface);
+
+  CopetitionServiceInterface copetitionServiceInterface = CopetitionService(splashRepositoryInterface: Get.find());
+  Get.lazyPut(() => copetitionServiceInterface);
 
 
   SawaljawabServicesInterface sawaljawabServicesInterface = SawaljawabServices(sawaljawabRepositoryInterface: Get.find());
@@ -74,12 +85,14 @@ Future<Map<String, Map<String, String>>> init() async {
   // Get.lazyPut(() => SplashController(sharedPreferences: Get.find()));
   Get.lazyPut(() => SplashController(splashServiceInterface: Get.find()));
   Get.lazyPut(() => Sawaljawabcontroller(sawaljawabServicesInterface: Get.find()));
+  Get.lazyPut(() => CopetitionController(copetitionServiceInterface: Get.find()));
   Get.lazyPut(() => LocationController());
   Get.lazyPut(() => AdsController());
   Get.lazyPut(() => AuthController(authServiceInterface: Get.find()));
   Get.lazyPut(() => TasbihController());
   Get.lazyPut(() => QazaController());
   Get.lazyPut(() => PrayerTimeController());
+  Get.lazyPut(() => ThemeController());
   Get.lazyPut(() => LocalizationController(languageServiceInterface: Get.find()));
 
 

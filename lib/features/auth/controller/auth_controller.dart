@@ -52,15 +52,20 @@ class AuthController extends GetxController implements GetxService {
   Future<void> updateToken() async {
     await authServiceInterface.updateToken();
   }
+
   void logout() async {
     Response response = await authServiceInterface.logout();
-    if (response.statusCode == 200 && response.body['status'] == true) {
+    if (response.statusCode == 200 ) {
       Get.offAllNamed(RouteName.splashScreen);
     }
-
   }
+
   bool isLoggedIn() {
-    return authServiceInterface.isLoggedIn();
+    bool isLogin = authServiceInterface.isLoggedIn();
+    if(!isLogin){
+      Get.toNamed(RouteName.login);
+    }
+    return isLogin;
   }
 
   Future<void> socialLogout() async {
@@ -88,6 +93,6 @@ class AuthController extends GetxController implements GetxService {
 
   void googleLogin() async {
     await authServiceInterface.googleLogin();
-
   }
+
 }

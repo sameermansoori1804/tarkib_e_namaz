@@ -5,8 +5,10 @@ import 'package:flutter_template/features/splash/controller/splash_controller.da
 import 'package:flutter_template/route/routes_name.dart';
 import 'package:flutter_template/utils/app_color.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../route/routes.dart';
+import '../../../utils/AppConstants.dart';
 import '../../../utils/images.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -66,6 +68,9 @@ class _SplashScreenState extends State<SplashScreen>
     DateTime now = DateTime.now();
 
     final splashController = Get.find<SplashController>();
+    await splashController.getUserData();
+    await splashController.getConfigData();
+
     Map<String, dynamic> body = {
       "latitude": locationController.latitude,
       "longitude": locationController.longitude,
@@ -77,7 +82,20 @@ class _SplashScreenState extends State<SplashScreen>
     bool success = await splashController.getHomeData(body);
 
     if (success && splashController.firstTimeConnectionCheck) {
-      Get.offAllNamed(RouteName.homeView);
+
+      SharedPreferences pref =await SharedPreferences.getInstance();
+      final langCod = pref.getString(AppConstants.languageCode);
+       print("lang-code------->");
+       print(langCod);
+       if(langCod == null){
+         Get.offAllNamed(AppRoutes.getLanguageScreen("no"));
+       }else{
+         if(double.parse(splashController.data?['app_version_code'] ?? "0") > AppConstants.appVersion){
+           Get.toNamed(AppRoutes.getAppUpdateScreen());
+         }else{
+           Get.offAllNamed(RouteName.homeView);
+         }
+       }
     } else {
 
       // Optionally show NoInternetScreen or retry
@@ -214,8 +232,8 @@ class _SplashScreenState extends State<SplashScreen>
                               // Loading Text
                               Text(
                                 splashController.isLoading
-                                    ? 'Loading...'
-                                    : 'Welcome',
+                                    ? 'loading'.tr
+                                    : 'welcome'.tr,
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.white70,

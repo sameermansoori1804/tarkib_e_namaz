@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_template/features/ads/screens/native_ads.dart';
 import 'package:flutter_template/utils/app_color.dart';
+import 'package:get/get.dart';
 
 
 class ZakatCalculatorPage extends StatefulWidget {
@@ -45,9 +46,9 @@ class _ZakatCalculatorPageState extends State<ZakatCalculatorPage> {
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: const Text(
-          'Zakat Calculator',
-          style: TextStyle(
+        title: Text(
+          'zakat_calculator'.tr,
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 20,
             fontWeight: FontWeight.w500,
@@ -61,17 +62,17 @@ class _ZakatCalculatorPageState extends State<ZakatCalculatorPage> {
             Expanded(
               child: ListView(
                 children: [
-                  _buildInputField('Total Gold Value', goldController),
+                  _buildInputField('total_gold_value'.tr, goldController),
                   const SizedBox(height: 5),
-                  _buildInputField('Total Silver Value', silverController),
+                  _buildInputField('total_silver_value'.tr, silverController),
                   const SizedBox(height: 5),
-                  _buildInputField('Cash on Hand', cashOnHandController),
+                  _buildInputField('cash_on_hand'.tr, cashOnHandController),
                   const SizedBox(height: 5),
-                  _buildInputField('Real Estate', realEstateController),
+                  _buildInputField('real_estate'.tr, realEstateController),
                   const SizedBox(height: 5),
-                  _buildInputField('Liabilities', liabilitiesController),
+                  _buildInputField('liabilities'.tr, liabilitiesController),
                   const SizedBox(height: 5),
-                  _buildInputField('Cash in Bank', cashInBankController),
+                  _buildInputField('cash_in_bank'.tr, cashInBankController),
                   const SizedBox(height: 5),
                   Container(
                     width: double.infinity,
@@ -83,9 +84,9 @@ class _ZakatCalculatorPageState extends State<ZakatCalculatorPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Payable zakat amount :',
-                          style: TextStyle(
+                        Text(
+                          'payable_zakat_amount'.tr,
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 18,
                             fontWeight: FontWeight.w500,
@@ -154,10 +155,10 @@ class _ZakatCalculatorPageState extends State<ZakatCalculatorPage> {
               controller: controller,
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               textAlign: TextAlign.right,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: 'Enter Amount',
-                hintStyle: TextStyle(
+                hintText: 'enter_amount'.tr,
+                hintStyle: const TextStyle(
                   color: Colors.grey,
                   fontSize: 14,
                 ),

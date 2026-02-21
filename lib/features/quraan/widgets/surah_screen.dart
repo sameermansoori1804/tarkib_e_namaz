@@ -64,13 +64,7 @@ class _SurahScreenState extends State<SurahScreen> {
 
 
   void _onParaSelected(Quraan item) {
-    print('p${item.pageStart!}');
-    print('p${item.pageEnd!}');
-    print("altaf---");
     Get.toNamed(AppRoutes.getQuraanPageScreen('p${item.pageStart!}','p${item.pageEnd!}','${item.name}')); // Replace with your HomeScreen route
-
-    print("Selected Para: ${item.id} - ${item.name}");
-    // Navigate to Quran reading page
   }
 
 }

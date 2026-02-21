@@ -6,7 +6,7 @@ import '../../../home/domain/models/home_data.dart';
 
 abstract class SawaljawabServicesInterface {
 
-  Future<List<QuestionModel>> getQuetionData(int page);
+  Future<Response> getQuetionData(int page);
   Future<Response> askQuestion(String question);
 
 }

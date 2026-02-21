@@ -1,10 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_template/features/common/screens/home_image_slider.dart';
 import 'package:flutter_template/features/home/domain/models/home_data.dart';
+import 'package:flutter_template/route/routes.dart';
+import 'package:flutter_template/utils/AppConstants.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_disposable.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
+import '../../../helpers/adhan_notification_service_helper.dart';
+import '../../auth/domain/models/user.dart';
 import '../../common/controller/location_controller.dart';
 import '../../home/domain/models/categories_model.dart';
 import '../../home/domain/models/home_slider.dart';
@@ -17,6 +23,8 @@ import 'dart:io';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
+import 'package:intl/intl.dart';
+
 class SplashController extends GetxController implements GetxService {
   final SplashServiceInterface splashServiceInterface;
 
@@ -40,11 +48,70 @@ class SplashController extends GetxController implements GetxService {
 
   PrayerTime? _prayerTime = PrayerTime();
   PrayerTime? get prayerTime=>_prayerTime;
+  final adhanNotificationServices = AdhanNotificationServiceImpl();
+
+
+  Map<String, dynamic>? _data = {};
+  Map<String, dynamic>? get data => _data;
+
+
+  UserModel? _user = null;
+  UserModel? get user =>_user;
+
+  Future<UserModel?> getUserData() async {
+
+    if(!splashServiceInterface.isLoggedIn()){
+      return null;
+    }
+
+    _isLoading = true;
+    _user = await splashServiceInterface.getUserData();
+    _isLoading = false;
+    update();
+    return _user;
+  }
+
+
+   getConfigData() async {
+    Response response = await splashServiceInterface.getConfigData();
+    _data = response.body;
 
 
 
+    update();
+    return _user;
+  }
 
 
+  Future<void> sendNotification() async {
+
+
+    DateTime time = DateTime.now().add(const Duration(minutes: 2));
+
+    // adhanNotificationServices.sendNotification(title: "test", body: "farukh khan");
+    //
+    await adhanNotificationServices.scheduleNotification(
+        id: 1,
+        title: "Fazar",
+        body: 'farukh Khjan',
+        dateTime: time,
+        payload: time.toIso8601String());
+  }
+
+  List<PendingNotificationRequest> pendingList = [];
+  List<ActiveNotification> activeList = [];
+
+  Future<void> getNotification() async {
+    pendingList = await adhanNotificationServices.getPendingNotifications();
+    activeList = await adhanNotificationServices.getActiveNotifications();
+
+
+    print("farukh-------->");
+    print(pendingList[0].body);
+    print(activeList.length);
+    print("farukh-------->");
+
+  }
 
   Future<bool> getHomeData(Map<String, dynamic> body) async {
     _isLoading = true;
@@ -57,8 +124,6 @@ class SplashController extends GetxController implements GetxService {
     if(homeData !=null){
       if(homeData.categories!.isNotEmpty){
         _categories?.addAll(homeData.categories as Iterable<Categories>);
-
-
       }
 
 
@@ -81,18 +146,12 @@ class SplashController extends GetxController implements GetxService {
       }
     }
 
-
-
+    await adhanNotificationServices.initializeNotification();
     _isLoading = false;
     update();
     return true;
 
   }
-
-
-
-
-
 
   Future<void> loadMorePrayerTimes(int? page) async {
     _isLoading = true;
@@ -112,7 +171,6 @@ class SplashController extends GetxController implements GetxService {
       "month": month.toString().padLeft(2, '0'), // 2-digit month
       "days": locationController.daySetting     // 2-digit day
     };
-    print("kkkkkkkkkk");
     List<Data>? d = await splashServiceInterface.getLoadMorePrayer(body);
     _prayerTime!.data!.addAll(d as Iterable<Data>); // now safe
     update();

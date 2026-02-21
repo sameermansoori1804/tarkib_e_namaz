@@ -17,7 +17,8 @@ class CategoryScreen extends StatefulWidget {
 
 
   final int categories;
-  CategoryScreen({required this.categories});
+  final String title;
+  CategoryScreen({required this.categories,required this.title});
   @override
   _CategoryScreenState createState() => _CategoryScreenState();
 
@@ -39,7 +40,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
           color: Colors.white,
         ),
         title: Text(
-          'Qaza Namaz',
+          '${widget.title}',
           style: TextStyle(
             color: Colors.white,
             fontSize: 20,
@@ -105,12 +106,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                   placeholder: (context, url) => FadeTransition(
                                     opacity: AlwaysStoppedAnimation(0.5),
                                     child: Image.asset(
-                                      Images.noInternet,
+                                      Images.placeholder,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
                                   errorWidget: (context, url, error) => Image.asset(
-                                    Images.noInternet,
+                                    Images.placeholder,
                                     fit: BoxFit.cover,
                                   ),
                                   fadeInDuration: const Duration(milliseconds: 300),

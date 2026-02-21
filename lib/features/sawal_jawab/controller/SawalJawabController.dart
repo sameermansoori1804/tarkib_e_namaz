@@ -19,6 +19,8 @@ class Sawaljawabcontroller extends GetxController implements GetxService {
 
   List<QuestionModel>  _questionList = [];
   List<QuestionModel> get questionList => _questionList;
+  List<QuestionModel>  _myQuestionList = [];
+  List<QuestionModel> get myQuestionList => _myQuestionList;
   @override
   void onInit() {
     // TODO: implement onInit
@@ -48,16 +50,36 @@ class Sawaljawabcontroller extends GetxController implements GetxService {
     update();
 
     try {
-      // 🔥 API CALL
-      // Replace with your API
+      Response response =
+      await sawaljawabServicesInterface.getQuetionData(_page);
 
-      final list = await sawaljawabServicesInterface.getQuetionData(_page);
+      if (response.statusCode == 200) {
 
-      if (list.isEmpty) {
-        _hasMore = false;
-      } else {
-        _questionList.addAll(list);
-        _page++; // next page ready
+        List<dynamic> allData =
+            response.body['all_quetions'] ?? [];
+
+        List<dynamic> myData =
+            response.body['my_quetions'] ?? [];
+
+        if (allData.isEmpty) {
+          _hasMore = false;
+        } else {
+
+          // 🔥 Parse All Questions
+          List<QuestionModel> allList = allData
+              .map((e) => QuestionModel.fromJson(e))
+              .toList();
+
+          // 🔥 Parse My Questions
+          List<QuestionModel> myList = myData
+              .map((e) => QuestionModel.fromJson(e))
+              .toList();
+
+          _questionList.addAll(allList);
+          _myQuestionList.addAll(myList);
+
+          _page++;
+        }
       }
     } catch (e) {
       print(e);

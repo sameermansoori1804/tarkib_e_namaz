@@ -1,23 +1,31 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_template/features/ads/screens/banner_ad.dart';
+import 'package:flutter_template/helpers/PdfCacheHelper.dart';
+import 'package:get/get.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class PdfViewerPage extends StatefulWidget {
-  final String pdfUrl;
+  final String pdfUrl; // URL or local file path
   final String title;
+  final bool isLocal;
 
   const PdfViewerPage({
     Key? key,
     required this.pdfUrl,
     required this.title,
+    this.isLocal = false,
   }) : super(key: key);
 
   @override
-  _PdfViewerPageState createState() => _PdfViewerPageState();
+  State<PdfViewerPage> createState() => _PdfViewerPageState();
 }
 
 class _PdfViewerPageState extends State<PdfViewerPage> {
   late PdfViewerController _pdfViewerController;
+
   bool _isLoading = true;
   bool _hasError = false;
   String _errorMessage = '';
@@ -26,140 +34,186 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
   @override
   void initState() {
     super.initState();
+
+    print(widget.pdfUrl);
+    print(widget.isLocal);
+    print("farukh----->");
     _pdfViewerController = PdfViewerController();
+
+    // 🕌 Full screen immersive Islamic reading
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.immersiveSticky,
+    );
+
     _checkFileType();
-    _loadFile();
   }
 
   void _checkFileType() {
-    final url = widget.pdfUrl.toLowerCase();
+    final path = widget.pdfUrl.toLowerCase();
 
-    setState(() {
-      if (url.endsWith('.pdf')) {
-        _isPdf = true;
-        _hasError = false;
-      } else if (url.endsWith('.jpg') ||
-          url.endsWith('.jpeg') ||
-          url.endsWith('.png') ||
-          url.endsWith('.gif') ||
-          url.endsWith('.bmp') ||
-          url.endsWith('.webp')) {
-        _isPdf = false; // It's an image
-        _hasError = false;
-      } else {
-        _isPdf = false;
-        _hasError = true;
-        _errorMessage =
-        'Unsupported file format. Please provide a PDF or image file.';
-      }
-    });
-  }
-
-  void _loadFile() {
-    if (_hasError) {
-      setState(() {
-        _isLoading = false;
-      });
-      return;
+    if (path.endsWith('.pdf')) {
+      _isPdf = true;
+    } else if (path.endsWith('.jpg') ||
+        path.endsWith('.jpeg') ||
+        path.endsWith('.png') ||
+        path.endsWith('.webp') ||
+        path.endsWith('.gif')) {
+      _isPdf = false;
+    } else {
+      _hasError = true;
+      _errorMessage = 'unsupported_file_format'.tr;
     }
 
-    // Simulate loading delay
-    Future.delayed(const Duration(seconds: 2), () {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
-    });
-  }
-
-  void _retryLoading() {
     setState(() {
-      _isLoading = true;
-      _hasError = false;
-    });
-
-    Future.delayed(const Duration(seconds: 2), () {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-          _hasError = false;
-        });
-      }
+      _isLoading = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    print('Loading file from: ${widget.pdfUrl}');
     return Scaffold(
+      backgroundColor: const Color(0xFFF5F7F3),
+
       appBar: AppBar(
-        title: Text(widget.title),
-        backgroundColor: Colors.blue[700],
+        backgroundColor: const Color(0xFF1E6F5C),
         foregroundColor: Colors.white,
         elevation: 0,
+        title: Text(
+          widget.title,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontWeight: FontWeight.w600),
+        ),
         actions: [
-          if (!_isLoading && !_hasError && _isPdf)
+          if (_isPdf && !widget.isLocal)
             IconButton(
-              icon: const Icon(Icons.zoom_in),
+              icon: const Icon(Icons.download),
               onPressed: () {
-                _pdfViewerController.zoomLevel = 2.0;
-              },
-            ),
-          if (!_isLoading && !_hasError && _isPdf)
-            IconButton(
-              icon: const Icon(Icons.refresh),
-              onPressed: () {
-                _pdfViewerController.jumpToPage(1);
+                PdfCacheHelper.downloadPdf(
+                  widget.pdfUrl,
+                  widget.title,
+                );
               },
             ),
         ],
       ),
+
       body: _buildBody(),
-      bottomNavigationBar: BannerAdWidget(),
+
+      // Ads hidden while reading local PDFs
+      bottomNavigationBar:
+      widget.isLocal ? null :  BannerAdWidget(),
     );
   }
 
   Widget _buildBody() {
-    if (_isLoading) {
-      return _buildLoadingState();
-    } else if (_hasError) {
-      return _buildErrorState();
-    } else {
-      if (_isPdf) {
-        return _buildPdfViewer();
-      } else {
-        return _buildImageViewer();
-      }
-    }
+    if (_isLoading) return _loadingView();
+    if (_hasError) return _errorView();
+
+    return _isPdf ? _pdfViewer() : _imageViewer();
   }
 
-  Widget _buildLoadingState() {
+  // 📖 PDF VIEWER (FAST LOAD)
+  Widget _pdfViewer() {
+    if (widget.isLocal) {
+      return SfPdfViewer.file(
+        File(widget.pdfUrl),
+        controller: _pdfViewerController,
+        enableDoubleTapZooming: true,
+      );
+    }
+
+    return SfPdfViewer.network(
+      widget.pdfUrl,
+      controller: _pdfViewerController,
+      canShowPaginationDialog: false,
+      onDocumentLoaded: (_) {
+        setState(() => _isLoading = false);
+      },
+      onDocumentLoadFailed: (details) {
+        setState(() {
+          _hasError = true;
+          _errorMessage = 'failed_to_load_pdf'.tr;
+        });
+      },
+    );
+  }
+
+  // 🖼 Image Viewer
+  Widget _imageViewer() {
+    return InteractiveViewer(
+      minScale: 1,
+      maxScale: 5,
+      child: Center(
+        child: widget.isLocal
+            ? Image.file(
+          File(widget.pdfUrl),
+          fit: BoxFit.contain,
+          gaplessPlayback: true,
+        )
+            : Image.network(
+          widget.pdfUrl,
+          fit: BoxFit.contain,
+          gaplessPlayback: true,
+        ),
+      ),
+    );
+  }
+
+  // 🌙 Loading UI
+  Widget _loadingView() {
+    return const Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(
+            color: Color(0xFF1E6F5C),
+            strokeWidth: 3,
+          ),
+          SizedBox(height: 20),
+          Text(
+            'preparing_document',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ❌ Error UI
+  Widget _errorView() {
     return Center(
-      child: Container(
-        color: Colors.grey[50],
+      child: Padding(
+        padding: const EdgeInsets.all(24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-            ),
+            Icon(Icons.error_outline,
+                size: 70, color: Colors.redAccent),
             const SizedBox(height: 20),
             Text(
-              'Loading Document...',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[700],
+              'unable_to_open_document'.tr,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 10),
             Text(
-              widget.title,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[500],
-                fontStyle: FontStyle.italic,
+              _errorMessage,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.grey),
+            ),
+            const SizedBox(height: 30),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF1E6F5C),
               ),
+              onPressed: () => Navigator.pop(context),
+              child: Text('go_back'.tr),
             ),
           ],
         ),
@@ -167,138 +221,13 @@ class _PdfViewerPageState extends State<PdfViewerPage> {
     );
   }
 
-  Widget _buildErrorState() {
-    return Container(
-      color: Colors.grey[50],
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.error_outline,
-            size: 64,
-            color: Colors.red[400],
-          ),
-          const SizedBox(height: 20),
-          Text(
-            'Unable to load document',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.grey[800],
-            ),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            _errorMessage,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey[600],
-            ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            'URL: ${widget.pdfUrl}',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey[500],
-            ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(height: 30),
-          ElevatedButton(
-            onPressed: _retryLoading,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            ),
-            child: const Text('Retry'),
-          ),
-          const SizedBox(height: 15),
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text(
-              'Go Back',
-              style: TextStyle(color: Colors.blue),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPdfViewer() {
-    return SfPdfViewer.network(
-      widget.pdfUrl,
-      controller: _pdfViewerController,
-      onDocumentLoaded: (PdfDocumentLoadedDetails details) {
-        print('PDF document loaded successfully');
-        print('Number of pages: ${details.document.pages.count}');
-      },
-      onDocumentLoadFailed: (PdfDocumentLoadFailedDetails details) {
-        print('Failed to load PDF document: ${details.error}');
-        setState(() {
-          _hasError = true;
-          if (details.error.toString().contains('XMLHttpRequest')) {
-            _errorMessage =
-            'Network error. Please check your internet connection.';
-          } else if (details.error.toString().contains('404')) {
-            _errorMessage = 'PDF file not found. The URL may be incorrect.';
-          } else {
-            _errorMessage = 'Failed to load PDF: ${details.error.toString()}';
-          }
-        });
-      },
-    );
-  }
-
-  Widget _buildImageViewer() {
-    return InteractiveViewer(
-      panEnabled: true,
-      minScale: 0.5,
-      maxScale: 4,
-      child: Center(
-        child: Image.network(
-          widget.pdfUrl,
-          fit: BoxFit.contain,
-          errorBuilder: (context, error, stackTrace) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.broken_image, size: 64, color: Colors.red[400]),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'Failed to load image.',
-                    style: TextStyle(fontSize: 16, color: Colors.grey),
-                  ),
-                ],
-              ),
-            );
-          },
-          loadingBuilder: (context, child, loadingProgress) {
-            if (loadingProgress == null) return child;
-            return Center(
-              child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
-                    loadingProgress.expectedTotalBytes!
-                    : null,
-                valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
-
   @override
   void dispose() {
+    // Restore system UI
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.edgeToEdge,
+    );
+
     _pdfViewerController.dispose();
     super.dispose();
   }

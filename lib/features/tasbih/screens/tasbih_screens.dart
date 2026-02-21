@@ -52,7 +52,7 @@ class _TasbihScreenState extends State<TasbihScreen> {
             ),
             SizedBox(width: 12),
             Text(
-              'Add New Tasbih',
+              'add_new_tasbih'.tr,
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -67,7 +67,7 @@ class _TasbihScreenState extends State<TasbihScreen> {
           children: [
             // Zikr Selection
             Text(
-              'Select Zikr',
+              'select_zikr'.tr,
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
@@ -90,12 +90,12 @@ class _TasbihScreenState extends State<TasbihScreen> {
                     border: InputBorder.none,
                     contentPadding: EdgeInsets.zero,
                   ),
-                  hint: Text('Choose your Zikr'),
+                  hint: Text('choose_your_zikr'.tr),
                   items: tasbihList.map((tasbih) {
                     return DropdownMenuItem<String>(
-                      value: tasbih.title ?? 'No Title',
+                      value: tasbih.title ?? 'no_title'.tr,
                       child: Text(
-                        tasbih.title ?? 'No Title',
+                        tasbih.title ?? 'no_title'.tr,
                         overflow: TextOverflow.ellipsis, // Prevents overflow
                         maxLines: 1,
                       ),
@@ -113,7 +113,7 @@ class _TasbihScreenState extends State<TasbihScreen> {
 
             // Target Count
             Text(
-              'Target Count (Optional)',
+              'target_count_optional'.tr,
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
@@ -125,7 +125,7 @@ class _TasbihScreenState extends State<TasbihScreen> {
               controller: targetController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                hintText: 'Enter target count',
+                hintText: 'enter_target_count'.tr,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                   borderSide: BorderSide(color:  AppColor.darkgray),
@@ -150,7 +150,7 @@ class _TasbihScreenState extends State<TasbihScreen> {
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             ),
             child: Text(
-              'Cancel',
+              'cancel'.tr,
               style: TextStyle(color: Colors.grey.shade600),
             ),
           ),
@@ -187,7 +187,7 @@ class _TasbihScreenState extends State<TasbihScreen> {
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            child: Text('Add'),
+            child: Text('add'.tr),
           ),
         ],
       ),
@@ -200,7 +200,7 @@ class _TasbihScreenState extends State<TasbihScreen> {
       builder: (tasbihController) {
         return Scaffold(
           appBar: AppBar(
-            title: Text('Tasbih',style: TextStyle(color: AppColor.white),),
+            title: Text('tasbih'.tr,style: TextStyle(color: AppColor.white),),
             backgroundColor: AppColor.primaryColor,
             iconTheme: IconThemeData(color: Colors.white),
 
@@ -211,97 +211,100 @@ class _TasbihScreenState extends State<TasbihScreen> {
               children: [
                 Expanded(
                   child:
-                      tasbihController.readTasbihs!.isEmpty
-                          ? Center(
-                            child: Text('No Tasbihs yet. Tap + to add one.'),
-                          )
-                          : ListView.builder(
-                            itemCount: tasbihController.readTasbihs!.length,
-                            itemBuilder: (context, index) {
-                              ReadTasbih item =
-                                  tasbihController.readTasbihs![index];
-                              return Card(
-                                elevation: 3,
-                                margin: EdgeInsets.symmetric(vertical: 6),
-                                child: InkWell(
-                                  onTap:
-                                      () async{
-                                        await  Get.toNamed(
-                                          AppRoutes.getTasbihCounterScreen(),
-                                          arguments: item, // 👈 your ReadTasbih object
-                                        );
+                  tasbihController.readTasbihs!.isEmpty
+                      ? Center(
+                    child: Text('no_tasbihs_yet'.tr),
+                  )
+                      : ListView.builder(
+                    itemCount: tasbihController.readTasbihs!.length,
+                    itemBuilder: (context, index) {
+                      ReadTasbih item =
+                      tasbihController.readTasbihs![index];
+                      return Card(
+                        elevation: 3,
+                        margin: EdgeInsets.symmetric(vertical: 6),
+                        child: InkWell(
+                          onTap:
+                              () async{
+                            await  Get.toNamed(
+                              AppRoutes.getTasbihCounterScreen(),
+                              arguments: item, // 👈 your ReadTasbih object
+                            );
 
 
-                                        tasbihController.loadReadTasbihs();
+                            tasbihController.loadReadTasbihs();
+                          },
+                          child: ListTile(
+                            title: Text(item.tasbih!.title ?? "no_title".tr),
+                            subtitle: Text(
+                              'count_format'.trParams({
+                                'count': item.count.toString(),
+                                'target': item.target.toString(),
+                              }),
+                            ),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: Icon(Icons.refresh),
+                                  onPressed: () {
+                                    AwesomeDialog(
+                                      context: context,
+                                      dialogType: DialogType.error,
+                                      headerAnimationLoop: false,
+                                      animType: AnimType.bottomSlide,
+                                      showCloseIcon: true,
+                                      closeIcon: const Icon(Icons.close_fullscreen_outlined),
+                                      title: 'warning'.tr,
+                                      desc: 'reset_tasbih_confirmation'.tr,
+                                      btnCancelOnPress: () {
+
                                       },
-                                  child: ListTile(
-                                    title: Text(item.tasbih!.title ?? ""),
-                                    subtitle: Text(
-                                      'Count: ${item.count}/${item.target}',
-                                    ),
-                                    trailing: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        IconButton(
-                                          icon: Icon(Icons.refresh),
-                                          onPressed: () {
-                                            AwesomeDialog(
-                                              context: context,
-                                              dialogType: DialogType.error,
-                                              headerAnimationLoop: false,
-                                              animType: AnimType.bottomSlide,
-                                              showCloseIcon: true,
-                                              closeIcon: const Icon(Icons.close_fullscreen_outlined),
-                                              title: 'Warning',
-                                              desc: 'Do You Want to Reset This Tasbih?',
-                                              btnCancelOnPress: () {
-
-                                              },
-                                              onDismissCallback: (type) {
-                                                debugPrint('Dialog Dismiss from callback $type');
-                                              },
-                                              btnOkOnPress: () {
-                                                tasbihController.reset(tasbihId: item.id);
-                                              },
-                                            ).show();
-                                          },
-                                        ),
-                                        IconButton(
-                                          icon: Icon(
-                                            Icons.delete,
-                                            color: Colors.red,
-                                          ),
-                                          onPressed: () {
-
-                                            AwesomeDialog(
-                                              context: context,
-                                              dialogType: DialogType.error,
-                                              headerAnimationLoop: false,
-                                              animType: AnimType.bottomSlide,
-                                              showCloseIcon: true,
-                                              closeIcon: const Icon(Icons.close_fullscreen_outlined),
-                                              title: 'Warning',
-                                              desc: 'Do You Want to Delete This Tasbih?',
-                                              btnCancelOnPress: () {
-
-                                              },
-                                              onDismissCallback: (type) {
-                                                debugPrint('Dialog Dismiss from callback $type');
-                                              },
-                                              btnOkOnPress: () {
-                                                tasbihController.deleteReadTasbih(item.id ?? 0);
-                                              },
-                                            ).show();
-
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                      onDismissCallback: (type) {
+                                        debugPrint('Dialog Dismiss from callback $type');
+                                      },
+                                      btnOkOnPress: () {
+                                        tasbihController.reset(tasbihId: item.id);
+                                      },
+                                    ).show();
+                                  },
                                 ),
-                              );
-                            },
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                  onPressed: () {
+
+                                    AwesomeDialog(
+                                      context: context,
+                                      dialogType: DialogType.error,
+                                      headerAnimationLoop: false,
+                                      animType: AnimType.bottomSlide,
+                                      showCloseIcon: true,
+                                      closeIcon: const Icon(Icons.close_fullscreen_outlined),
+                                      title: 'warning'.tr,
+                                      desc: 'delete_tasbih_confirmation'.tr,
+                                      btnCancelOnPress: () {
+
+                                      },
+                                      onDismissCallback: (type) {
+                                        debugPrint('Dialog Dismiss from callback $type');
+                                      },
+                                      btnOkOnPress: () {
+                                        tasbihController.deleteReadTasbih(item.id ?? 0);
+                                      },
+                                    ).show();
+
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),

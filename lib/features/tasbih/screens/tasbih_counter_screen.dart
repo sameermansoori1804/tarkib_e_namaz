@@ -36,13 +36,6 @@ class _TasbihCounterScreenState extends State<TasbihCounterScreen> {
     currentCount = widget.readTasbih.count;
   }
 
-
-
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     double progress = widget.readTasbih.target > 0
@@ -54,7 +47,7 @@ class _TasbihCounterScreenState extends State<TasbihCounterScreen> {
 
       return  Scaffold(
         appBar: AppBar(
-          title: Text('Tasbih'),
+          title: Text('tasbih_counter'.tr),
           backgroundColor: Colors.teal,
           actions: [
             IconButton(
@@ -67,8 +60,8 @@ class _TasbihCounterScreenState extends State<TasbihCounterScreen> {
                   animType: AnimType.bottomSlide,
                   showCloseIcon: true,
                   closeIcon: const Icon(Icons.close_fullscreen_outlined),
-                  title: 'Warning',
-                  desc: 'Do You Want to Reset This Tasbih?',
+                  title: 'warning'.tr,
+                  desc: 'reset_tasbih_confirmation'.tr,
                   btnCancelOnPress: () {
 
                   },
@@ -103,7 +96,7 @@ class _TasbihCounterScreenState extends State<TasbihCounterScreen> {
                     SizedBox(width: 8),
                     Flexible(  // <-- Wrap with Flexible to constrain width and allow wrapping
                       child: Text(
-                        widget.readTasbih.tasbih?.title ?? "Untitled",
+                        widget.readTasbih.tasbih?.title ?? "untitled".tr,
                         style: TextStyle(fontSize: 18,fontWeight: FontWeight.w600),
                         softWrap: true,
                         overflow: TextOverflow.visible,

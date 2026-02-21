@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class OneSignalService {
-  static const String oneSignalAppId =
-      "54877126-383f-4b3f-b475-fb91d6c4556a"; // 🔹 Replace with your app id
+  static const String oneSignalAppId = "54877126-383f-4b3f-b475-fb91d6c4556a"; // 🔹 Replace with your app id
 
   static Future<void> initOneSignal(BuildContext context) async {
     // Initialize OneSignal

@@ -1,10 +1,10 @@
 class Images {
   static const String logo = 'assets/image/logo.png';
-  static const String english = 'assets/image/logo.png';
-  static const String hindi = 'assets/image/logo.png';
+  static const String placeholder = 'assets/image/placeholder.jpeg';
+  static const String english = 'assets/image/english.png';
+  static const String hindi = 'assets/image/english.png';
   static const String noInternet = 'assets/image/no_internet.png';
   static const String tasbih = 'assets/image/tasbih.png';
-  static const String placeholder = 'assets/image/placeholder.png';
   static const String click_hand = 'assets/image/hand.png';
   static const String prayer = 'assets/image/prayer.png';
   static const String namaz_banner = 'assets/image/namaz_banner.jpg';
@@ -20,6 +20,9 @@ class Images {
   static const String bottom_left = 'assets/image/bottom_left.png';
   static const String quraan_logo = 'assets/image/quraan_logo.png';
   static const String app_logo = 'assets/image/app_logo.png';
+  static const String normal_tasbih = 'assets/image/normal_tasbih.png';
+  static const String trophy_json = 'assets/anim/Trophy.json';
 
+  static const String languageBg = 'assets/image/language_bg.svg';
 
 }

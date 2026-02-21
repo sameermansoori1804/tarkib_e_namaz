@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_template/utils/app_color.dart';
+import 'package:get/get.dart';
 
 import '../domain/models/ParaItem.dart';
 import '../widgets/para_screen.dart';
@@ -78,15 +79,15 @@ class _QuranParaSurahViewState extends State<QuranParaSurahView>
                   fontWeight: FontWeight.w500,
                   fontSize: 14,
                 ),
-                tabs: const [
+                tabs:  [
                   Tab(
                     child: Center(
-                      child: Text("PARA"),
+                      child: Text("para".tr),
                     ),
                   ),
                   Tab(
                     child: Center(
-                      child: Text("SURAH"),
+                      child: Text("surah".tr),
                     ),
                   ),
 
@@ -112,19 +113,11 @@ class _QuranParaSurahViewState extends State<QuranParaSurahView>
 
 
 
-  Widget _buildSurahView() {
-    return const Center(
-      child: Text(
-        "Surah View",
-        style: TextStyle(fontSize: 18, color: Colors.grey),
-      ),
-    );
-  }
 
   Widget _buildLastReadingView() {
-    return const Center(
+    return  Center(
       child: Text(
-        "Last Reading View",
+        "last_reading_view".tr,
         style: TextStyle(fontSize: 18, color: Colors.grey),
       ),
     );

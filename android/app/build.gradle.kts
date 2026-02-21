@@ -15,13 +15,15 @@ if (keystorePropertiesFile.exists()) {
 
 
 android {
-    namespace = "com.mk.tarkib_e_namaz"
+    namespace = "com.mk.tarkib_e_namaz_app"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+        isCoreLibraryDesugaringEnabled = true
+
     }
 
     kotlinOptions {
@@ -29,7 +31,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.mk.tarkib_e_namaz"
+        applicationId = "com.mk.tarkib_e_namaz_app"
         minSdk = flutter.minSdkVersion
         targetSdk = 36
         versionCode = (keystoreProperties["flutter.versionCode"] as String).toInt()
@@ -62,4 +64,8 @@ android {
 
 flutter {
     source = "../.."
+}
+dependencies {
+    implementation("org.jetbrains.kotlin:kotlin-stdlib")
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 }
